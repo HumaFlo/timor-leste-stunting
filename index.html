@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="A data-led brief on childhood stunting in Timor-Leste, its causes, geographic burden, and evidence-based interventions.">
+<link rel="canonical" href="https://humaflo.github.io/timor-leste-stunting/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Childhood Stunting in Timor-Leste - Policy Brief">
+<meta property="og:description" content="A data-led brief on childhood stunting in Timor-Leste, its causes, geographic burden, and evidence-based interventions.">
+<meta property="og:url" content="https://humaflo.github.io/timor-leste-stunting/">
+<title>Childhood Stunting in Timor-Leste - Policy Brief</title>
+<style>
+*{box-sizing:border-box;margin:0}
+:root{
+  --bg:#FAF9F7;--surface:#FFFFFF;--fg:#1C1917;--muted:#57534E;--faint:#78716C;
+  --line:#E7E5E4;--hair:#D6D3D1;
+  --accent:var(--zwork-preview-accent,#C2410C);
+  --accent-ink:#9A3412;--accent-soft:#F6E3D7;
+  --ok:#15803D;
+  --font:var(--zwork-preview-font-family,"Avenir Next","Avenir","Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif);
+  --mono:ui-monospace,"SF Mono","Cascadia Mono",Menlo,Consolas,monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font:400 16px/1.6 var(--font);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin-inline:auto;padding-inline:clamp(1.25rem,4vw,2.5rem)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.kicker{font:600 11px/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--accent-ink)}
+h1{font-size:clamp(2.35rem,4.6vw,3.4rem);font-weight:600;line-height:1.05;letter-spacing:-.02em;max-width:16ch}
+h2{font-size:1.5rem;font-weight:600;line-height:1.2;letter-spacing:-.01em}
+h3{font-size:1rem;font-weight:600}
+.dek{font-size:1.1rem;line-height:1.55;color:var(--muted);max-width:58ch}
+.meta{font:500 12px/1.6 var(--mono);letter-spacing:.01em;color:var(--faint)}
+.lbl{font:600 11px/1.4 var(--font);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);display:block}
+.sub{font-size:.9rem;color:var(--muted);max-width:62ch}
+.src{font:500 10.5px/1.5 var(--mono);letter-spacing:.02em;color:var(--faint)}
+.num{font-size:clamp(2.1rem,3vw,2.6rem);font-weight:600;line-height:1.08;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.ctx{font-size:.82rem;line-height:1.45;color:var(--muted)}
+em{font-style:normal;color:var(--accent-ink);font-weight:600}
+/* masthead */
+.masthead{padding-block:4.25rem 3rem}
+.cols-m{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:2.5rem;align-items:end}
+.giant{font-size:clamp(4.4rem,9vw,7.2rem);font-weight:600;line-height:.95;letter-spacing:-.03em;color:var(--accent);font-variant-numeric:tabular-nums}
+.giant-cap{font-size:1rem;font-weight:600;margin-top:.6rem}
+.masthead .rule{border:0;border-top:2px solid var(--fg);margin:0 0 1.1rem}
+/* sections */
+section{border-top:1px solid var(--line);padding-block:calc(2.9rem + (5 - var(--zwork-preview-density,5)) * .28rem)}
+.sec-h{margin-bottom:.4rem}
+.sec-sub{margin-bottom:2rem}
+/* kpi tiles */
+.kgrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));column-gap:1.6rem;row-gap:2.2rem}
+.tile{border-top:2px solid var(--fg);padding-top:.85rem}
+.tile.hot{border-top-color:var(--accent)}
+.tile .num{margin-block:.45rem .3rem}
+@media(max-width:1080px){.kgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:620px){.kgrid{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:1.1rem}}
+@media(max-width:640px){figure{overflow-x:auto}figure svg{min-width:600px}}
+/* chart blocks */
+.cols-t{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(0,1fr);gap:3rem}
+.cols-g{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:3rem;align-items:start}
+@media(max-width:940px){.cols-t,.cols-g,.cols-m{grid-template-columns:1fr}}
+figure{margin:0}
+figure figcaption{font-size:.8rem;line-height:1.55;color:var(--faint);margin-top:.9rem;max-width:70ch}
+svg{display:block;width:100%;height:auto}
+svg text{font-family:var(--mono)}
+.gridline{stroke:var(--line)}
+.baseline{stroke:var(--hair)}
+.ax{font-size:11px;fill:var(--faint)}
+.hist{fill:none;stroke:var(--fg);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.dots circle{fill:var(--fg)}
+.dots circle:hover{r:5}
+.pace{stroke:var(--faint);stroke-width:2;stroke-dasharray:2 5;fill:none}
+.tgt{stroke:var(--accent);stroke-width:2;stroke-dasharray:6 5;fill:none}
+.dotT{fill:var(--accent)}
+.sl{font:600 11px var(--mono)}
+.halo{paint-order:stroke;stroke:var(--bg);stroke-width:3.5px;stroke-linejoin:round}
+.vf{fill:var(--fg)}
+.va{fill:var(--accent-ink)}
+.vf2{fill:var(--faint)}
+.bA{fill:var(--accent)}
+.bN{fill:var(--hair)}
+.bA:hover,.bN:hover{opacity:.8}
+.nm{font-size:11.5px;fill:var(--muted)}
+.vl{font-size:11px;fill:var(--fg);paint-order:stroke;stroke:var(--bg);stroke-width:3px;stroke-linejoin:round}
+.reff{stroke:var(--faint);stroke-dasharray:3 4}
+.side{border-top:2px solid var(--fg);padding-top:1rem;display:grid;gap:1.4rem}
+.side .big{font-size:1.5rem;font-weight:600;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.side p{font-size:.85rem;color:var(--muted)}
+.side .cell .src{display:block;margin-top:.2rem}
+/* causes */
+.cgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3rem}
+.cgrid>div{border-top:2px solid var(--hair);padding-top:1rem}
+.cgrid .tier{font:600 12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:.7rem}
+.cgrid ul{list-style:none;display:grid;gap:.8rem}
+.cgrid li{font-size:.88rem;line-height:1.5;color:var(--muted)}
+.cgrid strong{color:var(--fg);font-weight:600}
+@media(max-width:940px){.cgrid{grid-template-columns:1fr;gap:2rem}}
+/* fix */
+.cols-f{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:3rem;align-items:start}
+@media(max-width:940px){.cols-f{grid-template-columns:1fr}}
+.wlist{list-style:none;display:grid;gap:1.1rem;border-top:2px solid var(--fg);padding-top:1.2rem}
+.wlist li{font-size:.92rem;line-height:1.55;color:var(--muted);max-width:60ch}
+.wlist strong{color:var(--fg)}
+.roi{border:1px solid var(--hair);border-top:2px solid var(--accent);padding:1.6rem 1.6rem 1.4rem;background:var(--surface)}
+.roi .huge{font-size:clamp(2.6rem,4.5vw,3.6rem);font-weight:600;letter-spacing:-.02em;color:var(--accent);line-height:1;font-variant-numeric:tabular-nums}
+.roi .cap{font-size:.85rem;color:var(--muted);margin:.5rem 0 1.2rem;max-width:44ch}
+.roi ul{list-style:none;display:grid;gap:.75rem;border-top:1px solid var(--line);padding-top:1.1rem}
+.roi li{font-size:.86rem;line-height:1.5;color:var(--muted)}
+.roi li strong{color:var(--fg)}
+/* feedback */
+.cols-fb{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:3rem;align-items:start}
+@media(max-width:940px){.cols-fb{grid-template-columns:1fr}}
+fieldset{border:0;padding:0;margin:0 0 1.4rem}
+legend{margin-bottom:.7rem}
+.scale{display:flex;gap:.55rem;flex-wrap:wrap}
+.scale input{position:absolute;opacity:0;pointer-events:none}
+.scale label{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:62px;height:56px;border:1px solid var(--hair);border-radius:8px;background:var(--surface);cursor:pointer;font:600 17px/1 var(--font);transition:border-color .15s,background .15s,color .15s}
+.scale label small{font:500 10px/1 var(--mono);letter-spacing:.03em;text-transform:uppercase;color:var(--faint)}
+.scale label:hover{border-color:var(--faint)}
+.scale input:checked+label{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+.scale input:checked+label small{color:var(--hair)}
+.scale input:focus-visible+label{outline:2px solid var(--accent-ink);outline-offset:2px}
+textarea{width:100%;max-width:620px;min-height:92px;border:1px solid var(--hair);border-radius:8px;background:var(--surface);padding:.65rem .8rem;font:400 15px/1.5 var(--font);color:var(--fg);resize:vertical}
+textarea:focus-visible{outline:2px solid var(--accent-ink);outline-offset:1px}
+textarea::placeholder{color:var(--faint)}
+.err{color:var(--accent-ink);font:500 13.5px/1.5 var(--font);margin-top:.8rem}
+.err::before{content:"! "}
+.row{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1rem;align-items:center}
+button{font:600 14px/1 var(--font);letter-spacing:.02em;color:var(--fg);background:var(--surface);border:1px solid var(--hair);border-radius:8px;height:44px;padding:0 1.1rem;cursor:pointer;transition:transform .12s,border-color .15s,background .15s}
+button:hover{border-color:var(--faint)}
+button:active{transform:translateY(1px)}
+button:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+button.primary{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+button.primary:hover{border-color:var(--fg);background:#33302C}
+.donebox{border:1px solid var(--hair);border-radius:8px;background:var(--surface);padding:1.4rem}
+.donebox h3{margin-bottom:.4rem}
+.donebox p{font-size:.9rem;color:var(--muted);max-width:52ch}
+.storebox .row{margin-top:.9rem}
+.storebox p{font-size:.88rem;color:var(--muted);max-width:48ch;margin-top:.4rem}
+#fb-note{font:500 12.5px/1.5 var(--mono);color:var(--accent-ink);margin-top:.8rem}
+/* footer */
+footer{border-top:1px solid var(--line);padding-block:2.2rem 3rem}
+footer p{font-size:.8rem;line-height:1.6;color:var(--faint);max-width:88ch}
+footer p+p{margin-top:.6rem}
+/* entrance */
+@media(prefers-reduced-motion:no-preference){
+  .up{animation:rise calc(.55s*max(0,var(--zwork-preview-motion,1))) cubic-bezier(.16,1,.3,1) both}
+  .up.d1{animation-delay:.07s}.up.d2{animation-delay:.14s}.up.d3{animation-delay:.21s}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap cols-m">
+    <div>
+      <p class="kicker up">Timor-Leste · Child Nutrition Brief</p>
+      <hr class="rule up d1">
+      <h1 class="up d1">Childhood stunting in Timor-Leste</h1>
+      <p class="dek up d2" style="margin-top:1rem">Nearly half of under-fives are stunted. Nine years of national effort brought a drop of 0.7 points.</p>
+      <p class="meta up d3" style="margin-top:1.2rem">TLDHS 2025-26, TL-FNS 2020, JME 2025, World Bank costing 2024. Compiled October 2026.</p>
+    </div>
+    <div class="up d2">
+      <p class="giant">44.9%</p>
+      <p class="giant-cap">of children under five are stunted</p>
+      <p class="ctx">About 70,000 children; 16.5% of them severely. The rate is the second highest in Southeast Asia.</p>
+      <p class="src" style="margin-top:.5rem">TLDHS 2025-26 Key Indicators Report; JME 2024</p>
+    </div>
+  </div>
+</header>
+
+<main>
+<section id="scale" aria-labelledby="h-scale">
+  <div class="wrap">
+    <h2 id="h-scale" class="sec-h">The crisis at a glance</h2>
+    <p class="sub sec-sub">Every figure carries its survey year. Highlighted tiles are moving the wrong way.</p>
+    <div class="kgrid">
+      <div class="tile">
+        <span class="lbl">Severe stunting</span>
+        <p class="num">16.5%</p>
+        <p class="ctx">of all under-fives; stunting overall is 44.9%</p>
+        <p class="src">TLDHS 2025-26</p>
+      </div>
+      <div class="tile">
+        <span class="lbl">Children affected</span>
+        <p class="num">&asymp;70,000</p>
+        <p class="ctx">of roughly 157,000 under-fives nationwide</p>
+        <p class="src">JME 2024; UNICEF</p>
+      </div>
+      <div class="tile hot">
+        <span class="lbl">Wasting (acute)</span>
+        <p class="num">18.5%</p>
+        <p class="ctx">up from 8.6% in 2020, an emergency signal</p>
+        <p class="src">TLDHS 2025-26</p>
+      </div>
+      <div class="tile">
+        <span class="lbl">Underweight</span>
+        <p class="num">41.4%</p>
+        <p class="ctx">now the most prevalent form of malnutrition</p>
+        <p class="src">TLDHS 2025-26</p>
+      </div>
+      <div class="tile hot">
+        <span class="lbl">Dietary diversity</span>
+        <p class="num">19.1%</p>
+        <p class="ctx">of children 6-23m, down from 35.3% in 2020</p>
+        <p class="src">TLDHS 2025-26</p>
+      </div>
+      <div class="tile">
+        <span class="lbl">Maternal anaemia</span>
+        <p class="num">30.0%</p>
+        <p class="ctx">of women 15-49; 41.7% during pregnancy</p>
+        <p class="src">TLDHS 2025-26</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="trend" aria-labelledby="h-trend">
+  <div class="wrap">
+    <h2 id="h-trend" class="sec-h">Progress has stalled</h2>
+    <p class="sub sec-sub">Two decades of surveys show a plateau since 2016, while the national target sits far below the current path.</p>
+    <div class="cols-t">
+      <figure>
+        <svg viewBox="0 0 720 292" role="img" aria-label="Line chart: stunting prevalence from 55.7 percent in 2002 to 44.9 percent in 2025-26, versus the 2030 target of below 25 percent.">
+          <g class="gridline">
+            <line x1="40" y1="20" x2="700" y2="20"/>
+            <line x1="40" y1="78" x2="700" y2="78"/>
+            <line x1="40" y1="135" x2="700" y2="135"/>
+            <line x1="40" y1="193" x2="700" y2="193"/>
+          </g>
+          <line class="baseline" x1="40" y1="250" x2="700" y2="250"/>
+          <g class="ax">
+            <text x="32" y="24" text-anchor="end">60</text>
+            <text x="32" y="82" text-anchor="end">50</text>
+            <text x="32" y="139" text-anchor="end">40</text>
+            <text x="32" y="197" text-anchor="end">30</text>
+            <text x="32" y="254" text-anchor="end">20</text>
+            <text x="40" y="270">2002</text>
+            <text x="229" y="270" text-anchor="middle">2010</text>
+            <text x="365" y="270" text-anchor="middle">2016</text>
+            <text x="459" y="270" text-anchor="middle">2020</text>
+            <text x="600" y="270" text-anchor="middle">2026</text>
+            <text x="700" y="270" text-anchor="end">2030</text>
+          </g>
+          <line class="pace" x1="600" y1="107" x2="700" y2="106"/>
+          <line class="tgt" x1="600" y1="107" x2="700" y2="221"/>
+          <polyline class="hist" points="40,45 64,50 158,36 217,31 294,76 365,103 459,94 553,104 600,107"/>
+          <g class="dots">
+            <circle cx="40" cy="45" r="3"><title>MICS 2002: 55.7%</title></circle>
+            <circle cx="64" cy="50" r="3"><title>TL-DHS 2003: 54.8%</title></circle>
+            <circle cx="158" cy="36" r="3"><title>National survey 2007: 57.2%</title></circle>
+            <circle cx="217" cy="31" r="3"><title>TL-DHS 2009-10: 58.1%, highest recorded</title></circle>
+            <circle cx="294" cy="76" r="3"><title>TL-FNS 2013: 50.2%</title></circle>
+            <circle cx="365" cy="103" r="3"><title>TL-DHS 2016: 45.6%</title></circle>
+            <circle cx="459" cy="94" r="3"><title>TL-FNS 2020: 47.1%</title></circle>
+            <circle cx="553" cy="104" r="3"><title>JME 2025, modelled 2024: 45.4%</title></circle>
+            <circle cx="600" cy="107" r="5" fill="#C2410C"><title>TLDHS 2025-26: 44.9%</title></circle>
+          </g>
+          <circle class="dotT" cx="700" cy="221" r="4"><title>PANKOS target: below 25% by 2030</title></circle>
+          <g>
+            <text class="sl halo vf" x="217" y="20" text-anchor="middle">58.1%</text>
+            <text class="sl halo vf" x="294" y="94" text-anchor="middle">50.2%</text>
+            <text class="sl halo vf" x="365" y="123" text-anchor="middle">45.6%</text>
+            <text class="sl halo vf" x="459" y="84" text-anchor="middle">47.1%</text>
+            <text class="sl halo va" x="600" y="93" text-anchor="middle">44.9%</text>
+            <text class="sl halo va" x="700" y="240" text-anchor="end">below 25% by 2030</text>
+            <text class="sl halo vf2" x="692" y="99" text-anchor="end">at recent pace</text>
+          </g>
+        </svg>
+        <figcaption>Stunting prevalence, children under five (%), height-for-age below -2 SD of the WHO median; axis truncated at 20%. Dotted grey: continuing at the 2016-2025 pace of about 0.1 points a year. Dashed rust: path to the PANKOS target, which the World Bank estimates needs 2-3 points a year.</figcaption>
+      </figure>
+      <aside class="side" aria-label="Why it matters">
+        <h3>Why it matters</h3>
+        <div class="cell">
+          <p class="big">4.6 IQ points</p>
+          <p>lower measured IQ at age nine among children persistently stunted, birth-cohort evidence.</p>
+          <span class="src">PLOS ONE 2022 cohort</span>
+        </div>
+        <div class="cell">
+          <p class="big">+25-46%</p>
+          <p>adult hourly wages for those adequately nourished in the first two years, long-run trial follow-ups.</p>
+          <span class="src">Lancet; IJE review</span>
+        </div>
+        <div class="cell">
+          <p class="big">25.5%</p>
+          <p>of under-five deaths in 2013 attributed to undernutrition, the country's leading risk factor.</p>
+          <span class="src">IHME via World Bank</span>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section id="geo" aria-labelledby="h-geo">
+  <div class="wrap">
+    <h2 id="h-geo" class="sec-h">The burden is concentrated</h2>
+    <p class="sub sec-sub">Second highest in Southeast Asia, and inside the country a child's risk depends heavily on where they are born.</p>
+    <div class="cols-g">
+      <figure>
+        <svg viewBox="0 0 720 254" role="img" aria-label="Bar chart: stunting by country in Southeast Asia, Papua New Guinea 47.6, Timor-Leste 45.4, Laos 29.9, Philippines 27.7, Myanmar 24.5, Indonesia 22.6, Cambodia 22.0, Vietnam 19.2.">
+          <line class="reff" x1="394" y1="2" x2="394" y2="236"/>
+          <g>
+            <rect class="bN" x="140" y="6" width="533" height="18"><title>Papua New Guinea: 47.6%</title></rect>
+            <rect class="bA" x="140" y="36" width="509" height="18"><title>Timor-Leste: 45.4% (JME 2024, modelled)</title></rect>
+            <rect class="bN" x="140" y="66" width="335" height="18"><title>Laos: 29.9%</title></rect>
+            <rect class="bN" x="140" y="96" width="310" height="18"><title>Philippines: 27.7%</title></rect>
+            <rect class="bN" x="140" y="126" width="274" height="18"><title>Myanmar: 24.5%</title></rect>
+            <rect class="bN" x="140" y="156" width="253" height="18"><title>Indonesia: 22.6%</title></rect>
+            <rect class="bN" x="140" y="186" width="246" height="18"><title>Cambodia: 22.0%</title></rect>
+            <rect class="bN" x="140" y="216" width="215" height="18"><title>Vietnam: 19.2%</title></rect>
+          </g>
+          <g>
+            <text class="nm" x="132" y="19" text-anchor="end">PNG</text>
+            <text class="nm" x="132" y="49" text-anchor="end" font-weight="600" fill="#9A3412">Timor-Leste</text>
+            <text class="nm" x="132" y="79" text-anchor="end">Laos</text>
+            <text class="nm" x="132" y="109" text-anchor="end">Philippines</text>
+            <text class="nm" x="132" y="139" text-anchor="end">Myanmar</text>
+            <text class="nm" x="132" y="169" text-anchor="end">Indonesia</text>
+            <text class="nm" x="132" y="199" text-anchor="end">Cambodia</text>
+            <text class="nm" x="132" y="229" text-anchor="end">Vietnam</text>
+          </g>
+          <g class="vl">
+            <text x="681" y="19">47.6</text>
+            <text x="657" y="49" font-weight="600" fill="#9A3412">45.4</text>
+            <text x="483" y="79">29.9</text>
+            <text x="458" y="109">27.7</text>
+            <text x="422" y="139">24.5</text>
+            <text x="401" y="169">22.6</text>
+            <text x="394" y="199">22.0</text>
+            <text x="363" y="229">19.2</text>
+          </g>
+          <text class="vl" x="394" y="250" text-anchor="middle" fill="#78716C">SE Asia average 22.7</text>
+        </svg>
+        <figcaption>Stunting prevalence under five (%), JME 2025 edition, modelled 2024. Timor-Leste in rust; roughly twice the regional average.</figcaption>
+      </figure>
+      <figure>
+        <svg viewBox="0 0 720 310" role="img" aria-label="Bar chart: stunting by municipality 2025-26, from Ermera 57.4 percent down to Dili and Manatuto at 34.9 percent.">
+          <line class="reff" x1="569" y1="2" x2="569" y2="296"/>
+          <g>
+            <rect class="bA" x="150" y="4" width="536" height="14"><title>Ermera: 57.4% (severe 30.2%)</title></rect>
+            <rect class="bA" x="150" y="27" width="531" height="14"><title>Oecusse (RAEOA): 56.9%</title></rect>
+            <rect class="bA" x="150" y="50" width="510" height="14"><title>Viqueque: 54.7%</title></rect>
+            <rect class="bA" x="150" y="73" width="488" height="14"><title>Ainaro: 52.3%</title></rect>
+            <rect class="bA" x="150" y="96" width="462" height="14"><title>Bobonaro: 49.5%</title></rect>
+            <rect class="bA" x="150" y="119" width="435" height="14"><title>Liquiça: 46.6%</title></rect>
+            <rect class="bA" x="150" y="142" width="430" height="14"><title>Aileu: 46.1%</title></rect>
+            <rect class="bN" x="150" y="165" width="399" height="14"><title>Baucau: 42.8%</title></rect>
+            <rect class="bN" x="150" y="188" width="368" height="14"><title>Covalima: 39.4%</title></rect>
+            <rect class="bN" x="150" y="211" width="346" height="14"><title>Manufahi: 37.1%</title></rect>
+            <rect class="bN" x="150" y="234" width="344" height="14"><title>Lautém: 36.9%</title></rect>
+            <rect class="bN" x="150" y="257" width="326" height="14"><title>Dili: 34.9%</title></rect>
+            <rect class="bN" x="150" y="280" width="326" height="14"><title>Manatuto: 34.9%</title></rect>
+          </g>
+          <g class="nm">
+            <text x="142" y="15" text-anchor="end">Ermera</text>
+            <text x="142" y="38" text-anchor="end">Oecusse</text>
+            <text x="142" y="61" text-anchor="end">Viqueque</text>
+            <text x="142" y="84" text-anchor="end">Ainaro</text>
+            <text x="142" y="107" text-anchor="end">Bobonaro</text>
+            <text x="142" y="130" text-anchor="end">Liquiça</text>
+            <text x="142" y="153" text-anchor="end">Aileu</text>
+            <text x="142" y="176" text-anchor="end">Baucau</text>
+            <text x="142" y="199" text-anchor="end">Covalima</text>
+            <text x="142" y="222" text-anchor="end">Manufahi</text>
+            <text x="142" y="245" text-anchor="end">Lautém</text>
+            <text x="142" y="268" text-anchor="end">Dili</text>
+            <text x="142" y="291" text-anchor="end">Manatuto</text>
+          </g>
+          <g class="vl">
+            <text x="694" y="15">57.4</text>
+            <text x="689" y="38">56.9</text>
+            <text x="668" y="61">54.7</text>
+            <text x="646" y="84">52.3</text>
+            <text x="620" y="107">49.5</text>
+            <text x="593" y="130">46.6</text>
+            <text x="588" y="153">46.1</text>
+            <text x="557" y="176">42.8</text>
+            <text x="526" y="199">39.4</text>
+            <text x="504" y="222">37.1</text>
+            <text x="502" y="245">36.9</text>
+            <text x="484" y="268">34.9</text>
+            <text x="484" y="291">34.9</text>
+          </g>
+        </svg>
+        <figcaption>By municipality, TLDHS 2025-26 (%). Rust bars sit above the national average of 44.9% (dashed line). Atauro (52.2%) omitted, sample of 21.</figcaption>
+      </figure>
+    </div>
+    <p class="ctx" style="margin-top:1.6rem;max-width:72ch">Gradients run the same way everywhere: rural <strong>47.6%</strong> vs urban <strong>36.7%</strong>; poorest wealth quintile <strong>56.5%</strong> vs richest <strong>32.3%</strong>, a gap that has doubled since 2016. A 22.5-point spread separates Ermera from Dili.</p>
+  </div>
+</section>
+
+<section id="causes" aria-labelledby="h-causes">
+  <div class="wrap">
+    <h2 id="h-causes" class="sec-h">Why it persists</h2>
+    <p class="sub sec-sub">A chain of deprivation runs from the mother's plate to the national purse. Three tiers, UNICEF framework.</p>
+    <div class="cgrid">
+      <div>
+        <p class="tier">Immediate</p>
+        <ul>
+          <li><strong>Diet.</strong> 96.9% of toddlers ate starchy staples in the prior day; only 36.6% ate flesh foods and 3.1% dairy (2020).</li>
+          <li><strong>Illness.</strong> Diarrhoea 14% and fever 22% in two weeks; sick children are often fed less, not more.</li>
+          <li><strong>Timing.</strong> Stunting peaks at 55.5% at ages 24-35m, the tail of the first 1,000 days.</li>
+        </ul>
+      </div>
+      <div>
+        <p class="tier">Underlying</p>
+        <ul>
+          <li><strong>Households.</strong> 50.4% moderately or severely food insecure (2020); the lean season runs November to March.</li>
+          <li><strong>Hygiene.</strong> 28.4% basic handwashing facility; 6.2% of caregivers wash hands before feeding a child.</li>
+          <li><strong>Care.</strong> 21.7% of women never attended school; 57.8% of births come within 36 months of the last.</li>
+        </ul>
+      </div>
+      <div>
+        <p class="tier">Structural</p>
+        <ul>
+          <li><strong>Poverty.</strong> 41.8% by the national line (2014); 48.3% multidimensionally poor.</li>
+          <li><strong>Food system.</strong> Rain-fed farming, about 60% of cereals imported, El Niño drought in 2023-24.</li>
+          <li><strong>Fiscal cliff.</strong> The Petroleum Fund is projected to deplete around 2034; nutrition gets about 2% of the budget.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="fix" aria-labelledby="h-fix">
+  <div class="wrap">
+    <h2 id="h-fix" class="sec-h">What works, and what it costs</h2>
+    <p class="sub sec-sub">The evidence base is strong, the national plan exists, and the financing gap is small by budget standards.</p>
+    <div class="cols-f">
+      <div>
+        <h3 style="margin-bottom:.2rem">Proven interventions</h3>
+        <ul class="wlist">
+          <li><strong>Small-quantity lipid-based nutrients</strong> for ages 6-24m: severe stunting down 15-17% in trial meta-analyses.</li>
+          <li><strong>Treat wasting now.</strong> CMAM/RUTF reached 63% of cases in 2023; wasting has doubled since 2020.</li>
+          <li><strong>Feeding counselling.</strong> Exclusive breastfeeding has sat near 50-55% for fifteen years; dietary diversity collapsed to 19.1%.</li>
+          <li><strong>The Lancet core package</strong> at 90% coverage would avert about 20% of stunting and 15% of under-five deaths.</li>
+        </ul>
+      </div>
+      <div class="roi">
+        <p class="huge">$1 &rarr; $23</p>
+        <p class="cap">return per dollar on full-scale nutrition action, World Bank Investment Framework for Nutrition, 2024.</p>
+        <ul>
+          <li><strong>Timor-Leste ask:</strong> +US$55M to 2030, about US$7M a year or 0.3% of GDP.</li>
+          <li><strong>Documented return:</strong> more than US$10 per US$1 invested (World Bank national costing).</li>
+          <li><strong>Cost of inaction:</strong> US$41M a year in lost economic activity, about 1% of GDP.</li>
+          <li><strong>Goal:</strong> stunting below 25% by 2030 under PANKOS, approved November 2025.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="feedback" aria-labelledby="h-fb">
+  <div class="wrap">
+    <h2 id="h-fb" class="sec-h">Was this brief useful?</h2>
+    <p class="sub sec-sub">Thirty seconds. No name or email is requested. Submitted responses go to the feedback endpoint and are also stored in this browser for export.</p>
+    <div class="cols-fb">
+      <div>
+        <form id="fb-form" action="https://formspree.io/f/xdearnlo" method="post" novalidate>
+          <label class="sr" for="fb-website">Leave this field empty</label>
+          <input class="sr" type="text" id="fb-website" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <fieldset>
+            <legend class="lbl">Overall usefulness for your work</legend>
+            <div class="scale">
+              <input type="radio" name="rating" id="r1" value="1"><label for="r1">1<small>Not useful</small></label>
+              <input type="radio" name="rating" id="r2" value="2"><label for="r2">2<small>Limited</small></label>
+              <input type="radio" name="rating" id="r3" value="3"><label for="r3">3<small>Useful</small></label>
+              <input type="radio" name="rating" id="r4" value="4"><label for="r4">4<small>Strong</small></label>
+              <input type="radio" name="rating" id="r5" value="5"><label for="r5">5<small>Excellent</small></label>
+            </div>
+          </fieldset>
+          <label class="lbl" for="fb-comment" style="margin-bottom:.5rem">What would make it more useful? (optional)</label>
+          <textarea id="fb-comment" maxlength="800" placeholder="Missing numbers, wrong emphasis, layout problems, questions about the data"></textarea>
+          <p id="fb-err" class="err" role="alert" hidden></p>
+          <div class="row">
+            <button type="submit" class="primary">Submit feedback</button>
+          </div>
+        </form>
+        <div id="fb-done" class="donebox" hidden>
+          <h3 id="fb-done-h" tabindex="-1">Thanks, that is logged.</h3>
+          <p>Your response has been sent and a copy is stored in this browser. Use an export button to save or share the locally stored responses.</p>
+          <div class="row"><button id="fb-again">Submit another response</button></div>
+        </div>
+      </div>
+      <div class="storebox">
+        <h3 class="lbl" style="margin-bottom:.2rem">Collected responses</h3>
+        <p id="fb-count" role="status"></p>
+        <div class="row">
+          <button id="fb-export" disabled>Export JSON</button>
+          <button id="fb-copy" disabled>Copy as text</button>
+          <button id="fb-clear" disabled>Clear stored feedback</button>
+        </div>
+        <p id="fb-note" role="status" hidden></p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Compiled October 2026 from “Childhood Stunting in Timor-Leste: Comprehensive Problem Identification” (fully referenced). Primary sources: TLDHS 2025-26 Key Indicators Report; TL-FNS 2020; TL-DHS 2003, 2009-10, 2016; UNICEF/WHO/World Bank Joint Malnutrition Estimates 2025; World Bank CNAP-NFS costing 2024.</p>
+    <p>Survey estimates carry sampling error; contested figures and full caveats are documented in the source analysis. Single-file page with no tracking; submitted feedback is sent to Formspree and stored locally for export.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var KEY="tl-stunting-feedback-v1",mem=null,blocked=false;
+function load(){if(mem)return mem;try{mem=JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){blocked=true;mem=[]}return mem}
+function persist(a){mem=a;if(blocked)return;try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){blocked=true}}
+function $(id){return document.getElementById(id)}
+var form=$("fb-form"),err=$("fb-err"),done=$("fb-done"),comment=$("fb-comment"),note=$("fb-note"),countEl=$("fb-count");
+var bExport=$("fb-export"),bCopy=$("fb-copy"),bClear=$("fb-clear");
+function refresh(){
+  var n=load().length;
+  countEl.textContent=n===0?"No responses stored on this device yet. Successfully submitted feedback appears here.":n+(n===1?" response stored on this device.":" responses stored on this device.");
+  bExport.disabled=bCopy.disabled=bClear.disabled=(n===0);
+}
+form.addEventListener("change",function(){err.hidden=true});
+form.addEventListener("submit",async function(ev){
+  ev.preventDefault();
+  var sel=form.querySelector("input[name=rating]:checked");
+  if(!sel){err.textContent="Choose a rating from 1 to 5, then submit again.";err.hidden=false;form.querySelector("input[name=rating]").focus();return}
+  if($("fb-website").value)return;
+  err.hidden=true;
+  var submitButton=form.querySelector('button[type="submit"]');
+  submitButton.disabled=true;
+  submitButton.textContent="Sending feedback…";
+  try{
+    var response=await fetch(form.action,{
+      method:"POST",
+      headers:{"Accept":"application/json","Content-Type":"application/json"},
+      body:JSON.stringify({
+        rating:parseInt(sel.value,10),
+        comment:comment.value.trim(),
+        page:"Timor-Leste stunting brief V1",
+        _gotcha:$("fb-website").value
+      })
+    });
+    if(!response.ok)throw new Error("Feedback could not be submitted. Please try again.");
+    var list=load();
+    list.push({ts:new Date().toISOString(),rating:parseInt(sel.value,10),comment:comment.value.trim(),page:"Timor-Leste stunting brief V1"});
+    persist(list);
+    form.hidden=true;done.hidden=false;$("fb-done-h").focus();
+    if(blocked){note.hidden=false;note.textContent="Your response was sent, but local storage is blocked in this browser, so it cannot be exported from this device."}
+    refresh();
+  }catch(e){
+    err.textContent=e.message==="Failed to fetch"?"Network error: feedback was not confirmed as submitted. Check your connection and try again.":e.message;
+    err.hidden=false;
+  }finally{
+    submitButton.disabled=false;
+    submitButton.textContent="Submit feedback";
+  }
+});
+$("fb-again").addEventListener("click",function(){form.reset();form.hidden=false;done.hidden=true;form.querySelector("input[name=rating]").focus()});
+bExport.addEventListener("click",function(){
+  var a=load();if(!a.length)return;
+  var blob=new Blob([JSON.stringify({survey:"Childhood Stunting in Timor-Leste brief",exported:new Date().toISOString(),responses:a},null,2)],{type:"application/json"});
+  var u=URL.createObjectURL(blob),el=document.createElement("a");
+  el.href=u;el.download="timor-leste-stunting-feedback.json";document.body.appendChild(el);el.click();el.remove();
+  setTimeout(function(){URL.revokeObjectURL(u)},400);
+  note.hidden=false;note.textContent="Downloaded as timor-leste-stunting-feedback.json";
+});
+bCopy.addEventListener("click",function(){
+  var a=load();if(!a.length)return;
+  var lines=a.map(function(r,i){return (i+1)+") "+r.ts+" - rating "+r.rating+(r.comment?': "'+r.comment+'"':".")}).join("\n");
+  var txt="Feedback, Childhood Stunting in Timor-Leste brief\nExported "+new Date().toISOString()+"\n\n"+lines;
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){note.hidden=false;note.textContent="Copied to clipboard. Paste it into an email or document."},function(){note.hidden=false;note.textContent="Copy was blocked by the browser. Use Export instead."});
+  }else{note.hidden=false;note.textContent="Copy was blocked by the browser. Use Export instead."}
+});
+bClear.addEventListener("click",function(){
+  var b=this;
+  if(b.dataset.arm!=="1"){
+    b.dataset.arm="1";b.textContent="Click again to confirm";
+    note.hidden=false;note.textContent="This deletes the feedback stored in this browser.";
+    setTimeout(function(){if(b.dataset.arm==="1"){b.dataset.arm="";b.textContent="Clear stored feedback"}},3500);
+    return;
+  }
+  b.dataset.arm="";b.textContent="Clear stored feedback";
+  persist([]);refresh();note.hidden=false;note.textContent="Stored feedback cleared.";
+});
+refresh();
+})();
+</script>
+</body>
+</html>
