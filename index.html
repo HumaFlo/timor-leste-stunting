@@ -1,599 +1,1145 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="light">
-<meta name="description" content="A data-led brief on childhood stunting in Timor-Leste, its causes, geographic burden, and evidence-based interventions.">
+<title>Childhood Stunting in Timor-Leste — Evidence Dashboard</title>
+<meta name="description" content="Single-page evidence dashboard on childhood stunting in Timor-Leste: municipal burden map, national trends, drivers, equity gaps and response.">
 <link rel="canonical" href="https://humaflo.github.io/timor-leste-stunting/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Childhood Stunting in Timor-Leste - Policy Brief">
-<meta property="og:description" content="A data-led brief on childhood stunting in Timor-Leste, its causes, geographic burden, and evidence-based interventions.">
+<meta property="og:title" content="Childhood Stunting in Timor-Leste — Evidence Dashboard">
+<meta property="og:description" content="Single-page evidence dashboard on childhood stunting in Timor-Leste: municipal burden map, national trends, drivers, equity gaps and response.">
 <meta property="og:url" content="https://humaflo.github.io/timor-leste-stunting/">
-<title>Childhood Stunting in Timor-Leste - Policy Brief</title>
 <style>
-*{box-sizing:border-box;margin:0}
 :root{
-  --bg:#FAF9F7;--surface:#FFFFFF;--fg:#1C1917;--muted:#57534E;--faint:#78716C;
-  --fg-hover:#33302C;
-  --line:#E7E5E4;--hair:#D6D3D1;
-  --accent:var(--zwork-preview-accent,#C2410C);
-  --accent-ink:#9A3412;--accent-soft:#F6E3D7;
-  --ok:#15803D;
-  --font:var(--zwork-preview-font-family,"Avenir Next","Avenir","Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif);
-  --mono:ui-monospace,"SF Mono","Cascadia Mono",Menlo,Consolas,monospace;
+  --bg:#f7f5f1; --panel:#ffffff; --ink:#1d1b17; --ink2:#494338; --muted:#77705f; --faint:#9a9282;
+  --line:#e6e1d6; --line2:#d6d0c2; --sand:#f1ece2;
+  --acc:#a94f2c; --acc-deep:#83391c; --acc-soft:#f5e9e1;
+  --teal:#2d6468; --teal-soft:#e6eff0; --ok:#3f6b4a;
+  --radius:12px; --sh:0 1px 2px rgba(29,27,23,.05);
 }
-body{background:var(--bg);color:var(--fg);font:400 16px/1.6 var(--font);-webkit-font-smoothing:antialiased}
-.wrap{max-width:1180px;margin-inline:auto;padding-inline:clamp(1.25rem,4vw,2.5rem)}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-.kicker{font:600 11px/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--accent-ink)}
-h1{font-size:clamp(2.35rem,4.6vw,3.4rem);font-weight:600;line-height:1.05;letter-spacing:-.02em;max-width:16ch}
-h2{font-size:1.5rem;font-weight:600;line-height:1.2;letter-spacing:-.01em}
-h3{font-size:1rem;font-weight:600}
-.dek{font-size:1.1rem;line-height:1.55;color:var(--muted);max-width:58ch}
-.meta{font:500 12px/1.6 var(--mono);letter-spacing:.01em;color:var(--faint)}
-.lbl{font:600 11px/1.4 var(--font);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);display:block}
-.sub{font-size:.9rem;color:var(--muted);max-width:62ch}
-.src{font:500 10.5px/1.5 var(--mono);letter-spacing:.02em;color:var(--faint)}
-.num{font-size:clamp(2.1rem,3vw,2.6rem);font-weight:600;line-height:1.08;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-.ctx{font-size:.82rem;line-height:1.45;color:var(--muted)}
-em{font-style:normal;color:var(--accent-ink);font-weight:600}
-/* masthead */
-.masthead{padding-block:4.25rem 3rem}
-.cols-m{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:2.5rem;align-items:end}
-.giant{font-size:clamp(4.4rem,9vw,7.2rem);font-weight:600;line-height:.95;letter-spacing:-.03em;color:var(--accent);font-variant-numeric:tabular-nums}
-.giant-cap{font-size:1rem;font-weight:600;margin-top:.6rem}
-.masthead .rule{border:0;border-top:2px solid var(--fg);margin:0 0 1.1rem}
-/* sections */
-section{border-top:1px solid var(--line);padding-block:calc(2.9rem + (5 - var(--zwork-preview-density,5)) * .28rem)}
-.sec-h{margin-bottom:.4rem}
-.sec-sub{margin-bottom:2rem}
-/* kpi tiles */
-.kgrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));column-gap:1.6rem;row-gap:2.2rem}
-.tile{border-top:2px solid var(--fg);padding-top:.85rem}
-.tile.hot{border-top-color:var(--accent)}
-.tile .num{margin-block:.45rem .3rem}
-@media(max-width:1080px){.kgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:620px){.kgrid{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:1.1rem}}
-@media(max-width:640px){figure{overflow-x:auto}figure svg{min-width:600px}}
-/* chart blocks */
-.cols-t{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(0,1fr);gap:3rem}
-.cols-g{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:3rem;align-items:start}
-@media(max-width:940px){.cols-t,.cols-g,.cols-m{grid-template-columns:1fr}}
-figure{margin:0}
-figure figcaption{font-size:.8rem;line-height:1.55;color:var(--faint);margin-top:.9rem;max-width:70ch}
-svg{display:block;width:100%;height:auto}
-svg text{font-family:var(--mono)}
-.gridline{stroke:var(--line)}
-.baseline{stroke:var(--hair)}
-.ax{font-size:11px;fill:var(--faint)}
-.hist{fill:none;stroke:var(--fg);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
-.dots circle{fill:var(--fg)}
-.dots circle.dotT{fill:var(--accent)}
-.dots circle:hover{r:5}
-.pace{stroke:var(--faint);stroke-width:2;stroke-dasharray:2 5;fill:none}
-.tgt{stroke:var(--accent);stroke-width:2;stroke-dasharray:6 5;fill:none}
-.dotT{fill:var(--accent)}
-.sl{font:600 11px var(--mono)}
-.halo{paint-order:stroke;stroke:var(--bg);stroke-width:3.5px;stroke-linejoin:round}
-.vf{fill:var(--fg)}
-.va{fill:var(--accent-ink)}
-.vf2{fill:var(--faint)}
-.bA{fill:var(--accent)}
-.bN{fill:var(--hair)}
-.bA:hover,.bN:hover{opacity:.8}
-.nm{font-size:11.5px;fill:var(--muted)}
-.vl{font-size:11px;fill:var(--fg);paint-order:stroke;stroke:var(--bg);stroke-width:3px;stroke-linejoin:round}
-.nm.va,.vl .va{fill:var(--accent-ink)}
-.reff{stroke:var(--faint);stroke-dasharray:3 4}
-.side{border-top:2px solid var(--fg);padding-top:1rem;display:grid;gap:1.4rem}
-.side .big{font-size:1.5rem;font-weight:600;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
-.side p{font-size:.85rem;color:var(--muted)}
-.side .cell .src{display:block;margin-top:.2rem}
-/* causes */
-.cgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3rem}
-.cgrid>div{border-top:2px solid var(--hair);padding-top:1rem}
-.cgrid .tier{font:600 12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:.7rem}
-.cgrid ul{list-style:none;display:grid;gap:.8rem}
-.cgrid li{font-size:.88rem;line-height:1.5;color:var(--muted)}
-.cgrid strong{color:var(--fg);font-weight:600}
-@media(max-width:940px){.cgrid{grid-template-columns:1fr;gap:2rem}}
-/* fix */
-.cols-f{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:3rem;align-items:start}
-@media(max-width:940px){.cols-f{grid-template-columns:1fr}}
-.wlist{list-style:none;display:grid;gap:1.1rem;border-top:2px solid var(--fg);padding-top:1.2rem}
-.wlist li{font-size:.92rem;line-height:1.55;color:var(--muted);max-width:60ch}
-.wlist strong{color:var(--fg)}
-.roi{border:1px solid var(--hair);border-top:2px solid var(--accent);padding:1.6rem 1.6rem 1.4rem;background:var(--surface)}
-.roi .huge{font-size:clamp(2.6rem,4.5vw,3.6rem);font-weight:600;letter-spacing:-.02em;color:var(--accent);line-height:1;font-variant-numeric:tabular-nums}
-.roi .cap{font-size:.85rem;color:var(--muted);margin:.5rem 0 1.2rem;max-width:44ch}
-.roi ul{list-style:none;display:grid;gap:.75rem;border-top:1px solid var(--line);padding-top:1.1rem}
-.roi li{font-size:.86rem;line-height:1.5;color:var(--muted)}
-.roi li strong{color:var(--fg)}
-/* feedback */
-.cols-fb{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:3rem;align-items:start}
-@media(max-width:940px){.cols-fb{grid-template-columns:1fr}}
-fieldset{border:0;padding:0;margin:0 0 1.4rem}
-legend{margin-bottom:.7rem}
-.scale{display:flex;gap:.55rem;flex-wrap:wrap}
-.scale input{position:absolute;opacity:0;pointer-events:none}
-.scale label{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:62px;height:56px;border:1px solid var(--hair);border-radius:8px;background:var(--surface);cursor:pointer;font:600 17px/1 var(--font)}
-.scale label small{font:500 10px/1 var(--mono);letter-spacing:.03em;text-transform:uppercase;color:var(--faint)}
-.scale label:hover{border-color:var(--faint)}
-.scale input:checked+label{background:var(--fg);border-color:var(--fg);color:var(--bg)}
-.scale input:checked+label small{color:var(--hair)}
-.scale input:focus-visible+label{outline:2px solid var(--accent-ink);outline-offset:2px}
-textarea{width:100%;max-width:620px;min-height:92px;border:1px solid var(--hair);border-radius:8px;background:var(--surface);padding:.65rem .8rem;font:400 15px/1.5 var(--font);color:var(--fg);resize:vertical}
-textarea:focus-visible{outline:2px solid var(--accent-ink);outline-offset:1px}
-textarea::placeholder{color:var(--faint)}
-.err{color:var(--accent-ink);font:500 13.5px/1.5 var(--font);margin-top:.8rem}
-.err::before{content:"! "}
-.row{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1rem;align-items:center}
-button{font:600 14px/1 var(--font);letter-spacing:.02em;color:var(--fg);background:var(--surface);border:1px solid var(--hair);border-radius:8px;height:44px;padding:0 1.1rem;cursor:pointer}
-button:hover{border-color:var(--faint)}
-button:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
-button:disabled{opacity:.45;cursor:not-allowed;transform:none}
-button.primary{background:var(--fg);color:var(--bg);border-color:var(--fg)}
-button.primary:hover{border-color:var(--fg);background:var(--fg-hover)}
-.donebox{border-top:2px solid var(--fg);padding:1rem 0 0}
-.donebox h3{margin-bottom:.4rem}
-.donebox p{font-size:.9rem;color:var(--muted);max-width:52ch}
-@media(prefers-reduced-motion:no-preference){
-  html{scroll-behavior:smooth}
-  .scale label{transition:border-color .15s,background .15s,color .15s}
-  button{transition:transform .12s,border-color .15s,background .15s}
-  button:active{transform:translateY(1px)}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Avenir Next","Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;font-variant-numeric:tabular-nums}
+h1,h2,h3,h4{margin:0;font-weight:600;letter-spacing:-.01em}
+p{margin:0}
+a{color:var(--teal)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.muted{color:var(--muted)} .small{font-size:12px} .num{font-variant-numeric:tabular-nums}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+header.top{background:var(--panel);border-bottom:1px solid var(--line)}
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;padding:22px 0 18px;flex-wrap:wrap}
+.eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);font-weight:600;margin-bottom:6px}
+h1{font-size:22px;line-height:1.25}
+.sub{color:var(--muted);font-size:13px;margin-top:5px;max-width:64ch}
+.ctx{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.chipbtn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line2);background:#fff;border-radius:99px;padding:6px 6px 6px 12px;font-size:12.5px;cursor:pointer;color:var(--ink2)}
+.chipbtn b{font-weight:600;color:var(--ink)}
+.chipbtn .x{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--sand);font-size:13px;line-height:1}
+.chipbtn[hidden]{display:none}
+.btn{appearance:none;border:1px solid var(--line2);background:#fff;border-radius:9px;padding:8px 13px;font-size:12.5px;cursor:pointer;color:var(--ink2);transition:background .15s,border-color .15s}
+.btn:hover{background:#fbf8f2;border-color:#c4bcaa}
+.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;padding-top:18px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:13px 15px 12px;box-shadow:var(--sh);min-height:96px;position:relative}
+.kpi .lab{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;display:flex;gap:6px;align-items:center;justify-content:space-between}
+.kpi .v{font-size:27px;font-weight:650;letter-spacing:-.02em;margin-top:6px;line-height:1.1}
+.kpi .v .u{font-size:14px;font-weight:500;color:var(--muted);letter-spacing:0}
+.kpi .s{font-size:11.5px;color:var(--faint);margin-top:4px}
+.kpi .tag{font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);background:var(--teal-soft);border-radius:4px;padding:2px 5px;font-weight:600}
+.kpi .v.dash{color:var(--faint)}
+nav.tabs{position:sticky;top:0;z-index:30;background:rgba(247,245,241,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);margin-top:20px}
+.tabs .inner{display:flex;gap:28px;overflow-x:auto;scrollbar-width:none}
+.tabs .inner::-webkit-scrollbar{display:none}
+.tab{all:unset;box-sizing:border-box;cursor:pointer;padding:13px 1px 11px;font-size:13px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s}
+.tab:hover{color:var(--ink2)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--acc)}
+.tab .n{font-size:10.5px;color:var(--faint);margin-left:6px;font-weight:500}
+.tab[aria-selected="true"] .n{color:var(--acc)}
+main{padding:6px 0 48px}
+.view{padding-top:22px}
+.view.anim{animation:fadeUp .28s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:1.45fr .95fr}
+.g2b{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+.stack{display:grid;gap:16px}
+.sec-h{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin:0 0 12px;flex-wrap:wrap}
+.sec-h h2{font-size:17px}
+.sec-h .note{font-size:12px;color:var(--muted)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--sh);min-width:0}
+.card-h{padding:16px 18px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.card-h h3{font-size:14px}
+.card-h .src{font-size:11px;color:var(--faint);margin-top:2px}
+.card-b{padding:14px 18px 18px}
+.src{font-size:11px;color:var(--faint)}
+.chart{width:100%;height:auto;display:block;overflow:visible}
+.chart text{font-family:inherit}
+.chart .grid-l{stroke:#eee9df;stroke-width:1}
+.chart .ax{fill:var(--faint);font-size:10.5px}
+.chart .dot{cursor:pointer}
+.chart .dot:hover{stroke:#fff;stroke-width:2}
+.cap{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.45}
+.brow{display:grid;grid-template-columns:132px 1fr 58px;gap:12px;align-items:center;padding:3.5px 0}
+.brow .lbl{font-size:12.5px;color:var(--ink2);line-height:1.3}
+.brow .lbl small{display:block;color:var(--faint);font-size:10.5px}
+.track{position:relative;height:9px;background:var(--sand);border-radius:99px;min-width:40px}
+.fill{position:absolute;left:0;top:0;bottom:0;border-radius:99px;background:var(--acc);width:0;transition:width .55s cubic-bezier(.2,.7,.2,1)}
+.fill.teal{background:var(--teal)}
+.fill.sand{background:#c9b79c}
+.brow .val{font-size:12.5px;font-weight:600;text-align:right;white-space:nowrap}
+.brow .val small{font-weight:500;color:var(--faint);font-size:10.5px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);margin-top:10px;align-items:center}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.pgroup{padding:10px 0 6px;border-top:1px solid #f1ede4}
+.pgroup:first-child{border-top:0;padding-top:0}
+.pgroup h4{font-size:12.5px;font-weight:600;display:flex;justify-content:space-between;align-items:baseline}
+.pgroup h4 span{font-size:10.5px;color:var(--faint);font-weight:500}
+.srow{display:grid;grid-template-columns:58px 1fr 46px;gap:8px;align-items:center;padding:2px 0}
+.srow .yl{font-size:10.5px;color:var(--faint)}
+.srow .val{font-size:11.5px;font-weight:600;text-align:right}
+.sevmark{position:absolute;top:50%;width:2px;height:15px;transform:translate(-1px,-50%);background:var(--ink);opacity:.55;border-radius:1px}
+.strip{position:relative;height:24px}
+.strip::before{content:"";position:absolute;left:0;right:0;top:50%;height:2px;background:var(--sand);transform:translateY(-1px)}
+.sdot{position:absolute;top:50%;width:10px;height:10px;border-radius:50%;transform:translate(-50%,-50%);border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.09);cursor:pointer;transition:transform .12s}
+.sdot:hover{transform:translate(-50%,-50%) scale(1.25)}
+.sdot.y16{background:#c2ab8b}.sdot.y20{background:#7d9fa0}.sdot.y26{background:var(--acc)}
+.db{position:relative;height:30px}
+.db::before{content:"";position:absolute;left:0;right:0;top:50%;height:2px;background:var(--sand)}
+.db .seg{position:absolute;top:50%;height:2px;transform:translateY(-1px);background:var(--line2)}
+.db .d{position:absolute;top:50%;width:11px;height:11px;border-radius:50%;transform:translate(-50%,-50%);border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.1);cursor:pointer}
+.db .d.hi{background:var(--acc)} .db .d.lo{background:var(--teal)} .db .d.old{background:#a99f8d}
+.dbrow{display:grid;grid-template-columns:minmax(150px,240px) 1fr 74px;gap:14px;align-items:center;padding:7px 0;border-top:1px solid #f2eee5}
+.dbrow:first-of-type{border-top:0}
+.dbrow .lbl{font-size:12.5px;line-height:1.3}
+.dbrow .lbl small{display:block;font-size:10.5px;color:var(--faint);margin-top:1px}
+.dbrow .gap{font-size:12px;font-weight:600;text-align:right;white-space:nowrap}
+.dbrow .gap small{display:block;font-weight:500;color:var(--faint);font-size:10px}
+.maphead{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:14px 18px 0}
+.seg{display:inline-flex;border:1px solid var(--line2);border-radius:9px;overflow:hidden;background:#fff}
+.seg button{all:unset;cursor:pointer;padding:6px 11px;font-size:12px;color:var(--ink2);border-right:1px solid var(--line2);transition:background .15s,color .15s}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.mapbody{display:grid;grid-template-columns:1.55fr .95fr;gap:0}
+.mapcol{padding:6px 12px 14px 18px;min-width:0}
+.mapwrap{position:relative}
+.mapwrap svg{width:100%;height:auto;display:block}
+.rg{stroke:#fff;stroke-width:1.1;cursor:pointer;transition:fill .3s,stroke .2s,opacity .2s}
+.rg:hover{stroke:#1d1b17;stroke-width:1.8}
+.rg.thr{stroke:#4a3a2a;stroke-width:2}
+.rg.sel{stroke:var(--teal);stroke-width:2.6}
+.maplab{font-size:8.4px;fill:#2b2721;paint-order:stroke;stroke:#fff;stroke-width:2.4px;stroke-linejoin:round;pointer-events:none;font-weight:600}
+.maplab.sel{fill:var(--teal)}
+.mapfoot{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:2px 18px 14px;font-size:11px;color:var(--faint)}
+.legendscale{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.legendscale span{font-size:10.5px;color:var(--muted)}
+.legendscale .sw{width:26px;height:9px;border-radius:2px;display:inline-block}
+.detail{padding:16px 18px 18px;border-left:1px solid var(--line);min-width:0}
+.detail h3{font-size:15px}
+.big{font-size:38px;font-weight:650;letter-spacing:-.03em;line-height:1;margin-top:10px}
+.big .u{font-size:15px;font-weight:500;color:var(--muted);letter-spacing:0}
+.dstats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.dstat{border:1px solid var(--line);border-radius:9px;padding:9px 11px;background:#fdfcf9}
+.dstat .k{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--faint);font-weight:600}
+.dstat .v{font-size:16px;font-weight:600;margin-top:2px}
+.dstat .v small{font-size:11px;color:var(--muted);font-weight:500}
+.dmeta{margin-top:12px;font-size:11.5px;color:var(--muted);line-height:1.55}
+.dmeta b{color:var(--ink2);font-weight:600}
+.dmeta .row{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border-top:1px solid #f2eee5}
+.dmeta .row span:last-child{text-align:right}
+.pill{display:inline-block;font-size:10px;letter-spacing:.04em;text-transform:uppercase;font-weight:600;padding:2px 6px;border-radius:4px;background:var(--sand);color:var(--ink2)}
+.pill.warn{background:var(--acc-soft);color:var(--acc-deep)}
+.ctrl{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.ctrl label{font-size:12px;color:var(--ink2);display:flex;align-items:center;gap:7px}
+input[type="range"]{width:150px;accent-color:var(--acc);background:transparent}
+input[type="checkbox"]{accent-color:var(--acc);width:14px;height:14px}
+select{font:inherit;font-size:12.5px;padding:6px 26px 6px 9px;border:1px solid var(--line2);border-radius:8px;background:#fff;color:var(--ink2);appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 14px) 52%,calc(100% - 9px) 52%;background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-size:11.5px;border:1px solid var(--line2);background:#fff;border-radius:99px;padding:6px 12px;cursor:pointer;color:var(--ink2);transition:background .15s,color .15s,border-color .15s}
+.chip:hover{border-color:#b9b09e}
+.chip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tblwrap{overflow:auto;border:1px solid var(--line);border-radius:var(--radius);background:#fff}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:600px}
+th{background:#fbf9f5;text-align:left;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+th button{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
+th button:hover{color:var(--ink)}
+th .arrow{font-size:9px;color:var(--acc)}
+td{padding:9px 12px;border-bottom:1px solid #f1ede4;vertical-align:middle}
+tr.row{cursor:pointer}
+tr.row:hover td{background:#fbf7f0}
+tr.row[aria-selected="true"] td{background:var(--acc-soft)}
+tr.row:focus-visible{outline:2px solid var(--teal);outline-offset:-2px}
+td.right,th.right{text-align:right}
+.mini{font-size:10.5px;color:var(--faint);margin-left:5px}
+.statgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:12px}
+.stat{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:#fdfcf9}
+.stat .k{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--faint);font-weight:600;line-height:1.35}
+.stat .v{font-size:22px;font-weight:650;letter-spacing:-.02em;margin-top:5px}
+.stat .v small{font-size:11.5px;color:var(--muted);font-weight:500;letter-spacing:0}
+.stat .s{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.4}
+.callout{border-left:3px solid var(--acc);background:var(--acc-soft);border-radius:0 10px 10px 0;padding:13px 16px;font-size:12.5px;color:#4a2c1c;line-height:1.5}
+.callout b{color:var(--acc-deep)}
+.callout.teal{border-left-color:var(--teal);background:var(--teal-soft);color:#1f4144}
+.callout.teal b{color:#173a3d}
+.tl{position:relative;padding-left:18px;margin-top:4px}
+.tl::before{content:"";position:absolute;left:4px;top:4px;bottom:4px;width:1px;background:var(--line2)}
+.tl li{list-style:none;position:relative;padding:0 0 14px 6px;font-size:12.5px;line-height:1.5;color:var(--ink2)}
+.tl li::before{content:"";position:absolute;left:-18px;top:6px;width:7px;height:7px;border-radius:50%;background:#fff;border:2px solid var(--line2)}
+.tl li.key::before{border-color:var(--acc);background:var(--acc)}
+.tl li b{color:var(--ink);font-weight:600}
+.tl li .yr{font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--acc);font-weight:600;display:block;margin-bottom:1px}
+.tl{margin:0}
+.deflist{counter-reset:n;list-style:none;margin:0;padding:0}
+.deflist li{counter-increment:n;position:relative;padding:8px 0 8px 26px;font-size:12.5px;line-height:1.5;color:var(--ink2);border-top:1px solid #f2eee5}
+.deflist li:first-child{border-top:0}
+.deflist li::before{content:counter(n);position:absolute;left:0;top:9px;font-size:10px;font-weight:700;color:var(--acc);width:16px;height:16px;border-radius:50%;background:var(--acc-soft);display:grid;place-items:center}
+.cols2{columns:2;column-gap:28px}
+.cols2 li{break-inside:avoid}
+.rec{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.rec li{position:relative;padding:7px 0 7px 18px;font-size:12px;line-height:1.5;color:var(--ink2);border-top:1px solid #f2eee5}
+.rec li:first-child{border-top:0}
+.rec li::before{content:"";position:absolute;left:2px;top:14px;width:5px;height:5px;border-radius:50%;background:var(--acc)}
+.hr{border:0;border-top:1px solid var(--line);margin:16px 0}
+.empty{border:1px dashed var(--line2);border-radius:10px;padding:20px 16px;text-align:center;color:var(--muted);font-size:12.5px;background:#fcfbf8;line-height:1.5}
+.empty b{display:block;color:var(--ink2);font-size:13px;margin-bottom:2px}
+.tt{position:fixed;z-index:80;max-width:290px;background:#1d1b17;color:#f4f1ea;font-size:12px;line-height:1.45;padding:9px 11px;border-radius:8px;pointer-events:none;box-shadow:0 8px 28px rgba(0,0,0,.22);opacity:0;transition:opacity .12s;transform:translate(-50%,-100%)}
+.tt.on{opacity:1}
+.tt b{color:#fff;font-weight:600}
+.tt .r{display:flex;justify-content:space-between;gap:16px;color:#cfc7b8}
+.tt .r span:last-child{color:#fff}
+footer.foot{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--muted);font-size:11.5px;line-height:1.6}
+footer.foot p+p{margin-top:6px}
+@media (max-width:1060px){.kpis{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:920px){
+  .g2,.g2b,.g3{grid-template-columns:1fr}
+  .mapbody{grid-template-columns:1fr}
+  .detail{border-left:0;border-top:1px solid var(--line)}
+  .head{padding:18px 0 14px}
+  h1{font-size:19px}
+  .cols2{columns:1}
 }
-.storebox .row{margin-top:.9rem}
-.storebox p{font-size:.88rem;color:var(--muted);max-width:48ch;margin-top:.4rem}
-#fb-note{font:500 12.5px/1.5 var(--mono);color:var(--accent-ink);margin-top:.8rem}
-/* footer */
-footer{border-top:1px solid var(--line);padding-block:2.2rem 3rem}
-footer p{font-size:.8rem;line-height:1.6;color:var(--faint);max-width:88ch}
-footer p+p{margin-top:.6rem}
-/* entrance */
-@media(prefers-reduced-motion:no-preference){
-  .up{animation:rise calc(.55s*max(0,var(--zwork-preview-motion,1))) cubic-bezier(.16,1,.3,1) both}
-  .up.d1{animation-delay:.07s}.up.d2{animation-delay:.14s}.up.d3{animation-delay:.21s}
-  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (max-width:640px){
+  .wrap{padding:0 16px}
+  .kpis{grid-template-columns:repeat(2,1fr);gap:9px}
+  .kpi{padding:11px 12px;min-height:88px}
+  .kpi .v{font-size:23px}
+  .tab{font-size:12.5px}
+  .tabs .inner{gap:20px}
+  .brow{grid-template-columns:104px 1fr 48px;gap:9px}
+  .brow .lbl{font-size:11.5px}
+  .srow{grid-template-columns:46px 1fr 42px}
+  .dbrow{grid-template-columns:minmax(110px,150px) 1fr 54px;gap:10px}
+  .dbrow .lbl{font-size:11.5px}
+  .chart{min-width:520px}
+  .chart-scroll{overflow-x:auto}
+  .mapcol{padding:4px 10px 10px 12px}
+  .detail{padding:14px}
+  .big{font-size:32px}
 }
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}}
 </style>
 </head>
 <body>
 
-<header class="masthead">
-  <div class="wrap cols-m">
+<header class="top">
+  <div class="wrap head">
     <div>
-      <p class="kicker up">Timor-Leste · Child Nutrition Brief</p>
-      <hr class="rule up d1">
-      <h1 class="up d1">Childhood stunting in Timor-Leste</h1>
-      <p class="dek up d2" style="margin-top:1rem">Nearly half of under-fives are stunted. Nine years of national effort brought a drop of 0.7 points.</p>
-      <p class="meta up d3" style="margin-top:1.2rem">TLDHS 2025-26, TL-FNS 2020, JME 2025, World Bank costing 2024. Compiled October 2026.</p>
+      <div class="eyebrow">Timor-Leste · Evidence dashboard</div>
+      <h1>Childhood stunting: burden, drivers and response</h1>
+      <p class="sub">All figures from <em>Childhood Stunting in Timor-Leste — Comprehensive Problem Identification</em> (prepared 14 Oct 2026). Bracketed [n] values are that report's citation IDs.</p>
     </div>
-    <div class="up d2">
-      <p class="giant">44.9%</p>
-      <p class="giant-cap">of children under five are stunted</p>
-      <p class="ctx">About 70,000 children; 16.5% of them severely. The rate is the second highest in Southeast Asia.</p>
-      <p class="src" style="margin-top:.5rem">TLDHS 2025-26 Key Indicators Report; JME 2024</p>
+    <div class="ctx">
+      <button class="chipbtn" id="ctxChip" hidden aria-label="Clear selected area"><span id="ctxName"></span><span class="x" aria-hidden="true">×</span></button>
+      <button class="btn" id="resetBtn">Reset all</button>
     </div>
   </div>
 </header>
 
-<main>
-<section id="scale" aria-labelledby="h-scale">
-  <div class="wrap">
-    <h2 id="h-scale" class="sec-h">The crisis at a glance</h2>
-    <p class="sub sec-sub">Every figure carries its survey year. Highlighted tiles are moving the wrong way.</p>
-    <div class="kgrid">
-      <div class="tile">
-        <span class="lbl">Severe stunting</span>
-        <p class="num">16.5%</p>
-        <p class="ctx">of all under-fives; stunting overall is 44.9%</p>
-        <p class="src">TLDHS 2025-26</p>
+<div class="wrap">
+  <div class="kpis" id="kpiBand" aria-live="polite"></div>
+</div>
+
+<nav class="tabs" aria-label="Dashboard sections">
+  <div class="wrap inner" role="tablist" aria-label="Sections">
+    <button class="tab" role="tab" id="tab-overview" aria-controls="view-overview" aria-selected="true" data-view="overview">Overview<span class="n">01</span></button>
+    <button class="tab" role="tab" id="tab-map" aria-controls="view-map" aria-selected="false" tabindex="-1" data-view="map">Burden map<span class="n">02</span></button>
+    <button class="tab" role="tab" id="tab-drivers" aria-controls="view-drivers" aria-selected="false" tabindex="-1" data-view="drivers">Drivers<span class="n">03</span></button>
+    <button class="tab" role="tab" id="tab-equity" aria-controls="view-equity" aria-selected="false" tabindex="-1" data-view="equity">Equity<span class="n">04</span></button>
+    <button class="tab" role="tab" id="tab-response" aria-controls="view-response" aria-selected="false" tabindex="-1" data-view="response">Response &amp; investment<span class="n">05</span></button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<section class="view" id="view-overview" role="tabpanel" aria-labelledby="tab-overview">
+  <div class="grid g2">
+    <div class="card">
+      <div class="card-h">
+        <div><h3>Stunting prevalence, 2002–2026</h3><div class="src">% of children under 5 · national surveys [1][3][4][5][13]</div></div>
+        <label class="small muted"><input type="checkbox" id="jmeToggle"> JME 2024 (modelled)</label>
       </div>
-      <div class="tile">
-        <span class="lbl">Children affected</span>
-        <p class="num">&asymp;70,000</p>
-        <p class="ctx">of roughly 157,000 under-fives nationwide</p>
-        <p class="src">JME 2024; UNICEF</p>
-      </div>
-      <div class="tile hot">
-        <span class="lbl">Wasting (acute)</span>
-        <p class="num">18.5%</p>
-        <p class="ctx">up from 8.6% in 2020, an emergency signal</p>
-        <p class="src">TLDHS 2025-26</p>
-      </div>
-      <div class="tile">
-        <span class="lbl">Underweight</span>
-        <p class="num">41.4%</p>
-        <p class="ctx">now the most prevalent form of malnutrition</p>
-        <p class="src">TLDHS 2025-26</p>
-      </div>
-      <div class="tile hot">
-        <span class="lbl">Dietary diversity</span>
-        <p class="num">19.1%</p>
-        <p class="ctx">of children 6-23m, down from 35.3% in 2020</p>
-        <p class="src">TLDHS 2025-26</p>
-      </div>
-      <div class="tile">
-        <span class="lbl">Maternal anaemia</span>
-        <p class="num">30.0%</p>
-        <p class="ctx">of women 15-49; 41.7% during pregnancy</p>
-        <p class="src">TLDHS 2025-26</p>
+      <div class="card-b">
+        <div id="trendChart"></div>
+        <p class="cap">Stunting fell 12.5 pp between 2009–10 and 2016, then moved only −0.7 pp in the nine years to 2025–26. The dotted path is the PANKOS target of &lt;25% by 2030 — about 5 pp per year from 44.9%, versus ≈0.1 pp achieved since 2016.</p>
       </div>
     </div>
-  </div>
-</section>
-
-<section id="trend" aria-labelledby="h-trend">
-  <div class="wrap">
-    <h2 id="h-trend" class="sec-h">Progress has stalled</h2>
-    <p class="sub sec-sub">Two decades of surveys show a plateau since 2016, while the national target sits far below the current path.</p>
-    <div class="cols-t">
-      <figure>
-        <svg viewBox="0 0 720 292" role="img" aria-label="Line chart of stunting prevalence: MICS 2002, 55.7%; TL-DHS 2003, 54.8%; national survey 2007, 57.2%; TL-DHS 2009-10, 58.1%; TL-FNS 2013, 50.2%; TL-DHS 2016, 45.6%; TL-FNS 2020, 47.1%; JME 2025, modelled 2024, 45.4%; and TLDHS 2025-26, 44.9%. The PANKOS target is below 25% by 2030.">
-          <g class="gridline">
-            <line x1="40" y1="20" x2="700" y2="20"/>
-            <line x1="40" y1="78" x2="700" y2="78"/>
-            <line x1="40" y1="135" x2="700" y2="135"/>
-            <line x1="40" y1="193" x2="700" y2="193"/>
-          </g>
-          <line class="baseline" x1="40" y1="250" x2="700" y2="250"/>
-          <g class="ax">
-            <text x="32" y="24" text-anchor="end">60</text>
-            <text x="32" y="82" text-anchor="end">50</text>
-            <text x="32" y="139" text-anchor="end">40</text>
-            <text x="32" y="197" text-anchor="end">30</text>
-            <text x="32" y="254" text-anchor="end">20</text>
-            <text x="40" y="270">2002</text>
-            <text x="229" y="270" text-anchor="middle">2010</text>
-            <text x="365" y="270" text-anchor="middle">2016</text>
-            <text x="459" y="270" text-anchor="middle">2020</text>
-            <text x="600" y="270" text-anchor="middle">2026</text>
-            <text x="700" y="270" text-anchor="end">2030</text>
-          </g>
-          <line class="pace" x1="600" y1="107" x2="700" y2="106"/>
-          <line class="tgt" x1="600" y1="107" x2="700" y2="221"/>
-          <polyline class="hist" points="40,45 64,50 158,36 217,31 294,76 365,103 459,94 553,104 600,107"/>
-          <g class="dots">
-            <circle cx="40" cy="45" r="3"><title>MICS 2002: 55.7%</title></circle>
-            <circle cx="64" cy="50" r="3"><title>TL-DHS 2003: 54.8%</title></circle>
-            <circle cx="158" cy="36" r="3"><title>National survey 2007: 57.2%</title></circle>
-            <circle cx="217" cy="31" r="3"><title>TL-DHS 2009-10: 58.1%, highest recorded</title></circle>
-            <circle cx="294" cy="76" r="3"><title>TL-FNS 2013: 50.2%</title></circle>
-            <circle cx="365" cy="103" r="3"><title>TL-DHS 2016: 45.6%</title></circle>
-            <circle cx="459" cy="94" r="3"><title>TL-FNS 2020: 47.1%</title></circle>
-            <circle cx="553" cy="104" r="3"><title>JME 2025, modelled 2024: 45.4%</title></circle>
-            <circle class="dotT" cx="600" cy="107" r="5"><title>TLDHS 2025-26: 44.9%</title></circle>
-          </g>
-          <circle class="dotT" cx="700" cy="221" r="4"><title>PANKOS target: below 25% by 2030</title></circle>
-          <g>
-            <text class="sl halo vf" x="217" y="20" text-anchor="middle">58.1%</text>
-            <text class="sl halo vf" x="294" y="94" text-anchor="middle">50.2%</text>
-            <text class="sl halo vf" x="365" y="123" text-anchor="middle">45.6%</text>
-            <text class="sl halo vf" x="459" y="84" text-anchor="middle">47.1%</text>
-            <text class="sl halo va" x="600" y="93" text-anchor="middle">44.9%</text>
-            <text class="sl halo va" x="700" y="240" text-anchor="end">below 25% by 2030</text>
-            <text class="sl halo vf2" x="692" y="99" text-anchor="end">at recent pace</text>
-          </g>
-        </svg>
-        <figcaption>Stunting prevalence, children under five (%), height-for-age below -2 SD of the WHO median; axis truncated at 20%. Dotted grey: continuing at the 2016-2025 pace of about 0.1 points a year. Dashed rust: path to the PANKOS target, which the World Bank estimates needs 2-3 points a year.</figcaption>
-      </figure>
-      <aside class="side" aria-label="Why it matters">
-        <h3>Why it matters</h3>
-        <div class="cell">
-          <p class="big">4.6 IQ points</p>
-          <p>lower measured IQ at age nine among children persistently stunted, birth-cohort evidence.</p>
-          <span class="src">PLOS ONE 2022 cohort</span>
+    <div class="card">
+      <div class="card-h"><div><h3>What the numbers mean</h3><div class="src">Report findings, latest survey</div></div></div>
+      <div class="card-b">
+        <div class="statgrid" style="grid-template-columns:1fr 1fr">
+          <div class="stat"><div class="k">Children stunted</div><div class="v">≈70,000</div><div class="s">JME 2024: 69,100 [8]</div></div>
+          <div class="stat"><div class="k">Severe stunting</div><div class="v">16.5<small>%</small></div><div class="s">TLDHS 2025–26 [1]</div></div>
+          <div class="stat"><div class="k">Wasting</div><div class="v">18.5<small>%</small></div><div class="s">up from 8.6% in 2020 [1][4]</div></div>
+          <div class="stat"><div class="k">Min. dietary diversity</div><div class="v">19.1<small>%</small></div><div class="s">6–23 m; was 35.3% in 2020 [1][4]</div></div>
         </div>
-        <div class="cell">
-          <p class="big">+25-46%</p>
-          <p>adult hourly wages for those adequately nourished in the first two years, long-run trial follow-ups.</p>
-          <span class="src">Lancet; IJE review</span>
+        <div class="callout" style="margin-top:14px"><b>Stalled at the top of the world's range.</b> At 45.4% (JME 2024) Timor-Leste ranks second in Southeast Asia after Papua New Guinea — roughly twice the regional average of 22.7% [2][3].</div>
+        <div class="dmeta" style="margin-top:14px">
+          <div class="row"><span>Under-5 mortality</span><span><b>41</b> per 1,000 live births [1]</span></div>
+          <div class="row"><span>Maternal anaemia (pregnant)</span><span><b>41.7%</b> [1]</span></div>
+          <div class="row"><span>Cost of malnutrition</span><span><b>US$41m/yr</b> ≈1% of GDP [24]</span></div>
         </div>
-        <div class="cell">
-          <p class="big">25.5%</p>
-          <p>of under-five deaths in 2013 attributed to undernutrition, the country's leading risk factor.</p>
-          <span class="src">IHME via World Bank</span>
+      </div>
+    </div>
+  </div>
+  <div class="grid g2b" style="margin-top:16px">
+    <div class="card">
+      <div class="card-h"><div><h3>Malnutrition profile by survey</h3><div class="src">% of children under 5 · anthropometry [1][4][5][13]</div></div></div>
+      <div class="card-b" id="profileWrap"></div>
+    </div>
+    <div class="card">
+      <div class="card-h"><div><h3>Regional comparison, 2024</h3><div class="src">JME 2025 edition, modelled stunting % [3]</div></div></div>
+      <div class="card-b">
+        <div id="regionWrap"></div>
+        <p class="cap">Dashed markers: SE Asia average 22.7% and Sub-Saharan Africa 32.2%. Timor-Leste sits closer to the African average than to its own region.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="view" id="view-map" role="tabpanel" aria-labelledby="tab-map" hidden>
+  <div class="sec-h">
+    <div><h2>Municipal burden</h2><p class="note">TLDHS 2025–26, Table 12 [1]. Select an area on the map or in the table; filters update the summary cards above.</p></div>
+    <div class="ctrl">
+      <label for="munSelect" class="sr">Highlight an area</label>
+      <select id="munSelect"><option value="">All 14 areas</option></select>
+      <label><input type="checkbox" id="onlyThr"> Only areas ≥ threshold</label>
+    </div>
+  </div>
+  <div class="card">
+    <div class="maphead">
+      <div class="seg" role="group" aria-label="Map measure">
+        <button data-metric="stunt" aria-pressed="true">Stunting %</button>
+        <button data-metric="severe" aria-pressed="false">Severe stunting %</button>
+      </div>
+      <div class="ctrl">
+        <label for="thr">Highlight ≥ <output id="thrOut">58</output>%</label>
+        <input type="range" id="thr" min="35" max="58" step="1" value="58" aria-describedby="thrCount">
+        <span class="small muted" id="thrCount">0 of 14 areas</span>
+      </div>
+    </div>
+    <div class="mapbody">
+      <div class="mapcol">
+        <div class="mapwrap" id="mapWrap"></div>
+        <div class="mapfoot">
+          <div class="legendscale" id="mapLegend"></div>
+          <span>National 44.9% · boundaries: geoBoundaries (simplified)</span>
         </div>
-      </aside>
+      </div>
+      <aside class="detail" id="detailPanel" aria-live="polite"></aside>
     </div>
   </div>
-</section>
-
-<section id="geo" aria-labelledby="h-geo">
-  <div class="wrap">
-    <h2 id="h-geo" class="sec-h">The burden is concentrated</h2>
-    <p class="sub sec-sub">Second highest in Southeast Asia, and inside the country a child's risk depends heavily on where they are born.</p>
-    <div class="cols-g">
-      <figure>
-        <svg viewBox="0 0 720 254" role="img" aria-label="Bar chart of stunting prevalence in Southeast Asia, JME 2025 edition modelled 2024: Papua New Guinea 47.6%; Timor-Leste 45.4%; Laos 29.9%; Philippines 27.7%; Myanmar 24.5%; Indonesia 22.6%; Cambodia 22.0%; Vietnam 19.2%. Southeast Asia average: 22.7%.">
-          <line class="reff" x1="394" y1="2" x2="394" y2="236"/>
-          <g>
-            <rect class="bN" x="140" y="6" width="533" height="18"><title>Papua New Guinea: 47.6%</title></rect>
-            <rect class="bA" x="140" y="36" width="509" height="18"><title>Timor-Leste: 45.4% (JME 2024, modelled)</title></rect>
-            <rect class="bN" x="140" y="66" width="335" height="18"><title>Laos: 29.9%</title></rect>
-            <rect class="bN" x="140" y="96" width="310" height="18"><title>Philippines: 27.7%</title></rect>
-            <rect class="bN" x="140" y="126" width="274" height="18"><title>Myanmar: 24.5%</title></rect>
-            <rect class="bN" x="140" y="156" width="253" height="18"><title>Indonesia: 22.6%</title></rect>
-            <rect class="bN" x="140" y="186" width="246" height="18"><title>Cambodia: 22.0%</title></rect>
-            <rect class="bN" x="140" y="216" width="215" height="18"><title>Vietnam: 19.2%</title></rect>
-          </g>
-          <g>
-            <text class="nm" x="132" y="19" text-anchor="end">PNG</text>
-            <text class="nm va" x="132" y="49" text-anchor="end" font-weight="600">Timor-Leste</text>
-            <text class="nm" x="132" y="79" text-anchor="end">Laos</text>
-            <text class="nm" x="132" y="109" text-anchor="end">Philippines</text>
-            <text class="nm" x="132" y="139" text-anchor="end">Myanmar</text>
-            <text class="nm" x="132" y="169" text-anchor="end">Indonesia</text>
-            <text class="nm" x="132" y="199" text-anchor="end">Cambodia</text>
-            <text class="nm" x="132" y="229" text-anchor="end">Vietnam</text>
-          </g>
-          <g class="vl">
-            <text x="681" y="19">47.6</text>
-            <text class="va" x="657" y="49" font-weight="600">45.4</text>
-            <text x="483" y="79">29.9</text>
-            <text x="458" y="109">27.7</text>
-            <text x="422" y="139">24.5</text>
-            <text x="401" y="169">22.6</text>
-            <text x="394" y="199">22.0</text>
-            <text x="363" y="229">19.2</text>
-          </g>
-          <text class="vl vf2" x="394" y="250" text-anchor="middle">SE Asia average 22.7</text>
-        </svg>
-        <figcaption>Stunting prevalence under five (%), JME 2025 edition, modelled 2024. Timor-Leste in rust; roughly twice the regional average.</figcaption>
-      </figure>
-      <figure>
-        <svg viewBox="0 0 720 310" role="img" aria-label="Bar chart of stunting prevalence by municipality, TLDHS 2025-26: Ermera 57.4%; Oecusse 56.9%; Viqueque 54.7%; Ainaro 52.3%; Bobonaro 49.5%; Liquiça 46.6%; Aileu 46.1%; Baucau 42.8%; Covalima 39.4%; Manufahi 37.1%; Lautém 36.9%; Dili 34.9%; Manatuto 34.9%.">
-          <line class="reff" x1="569" y1="2" x2="569" y2="296"/>
-          <g>
-            <rect class="bA" x="150" y="4" width="536" height="14"><title>Ermera: 57.4% (severe 30.2%)</title></rect>
-            <rect class="bA" x="150" y="27" width="531" height="14"><title>Oecusse (RAEOA): 56.9%</title></rect>
-            <rect class="bA" x="150" y="50" width="510" height="14"><title>Viqueque: 54.7%</title></rect>
-            <rect class="bA" x="150" y="73" width="488" height="14"><title>Ainaro: 52.3%</title></rect>
-            <rect class="bA" x="150" y="96" width="462" height="14"><title>Bobonaro: 49.5%</title></rect>
-            <rect class="bA" x="150" y="119" width="435" height="14"><title>Liquiça: 46.6%</title></rect>
-            <rect class="bA" x="150" y="142" width="430" height="14"><title>Aileu: 46.1%</title></rect>
-            <rect class="bN" x="150" y="165" width="399" height="14"><title>Baucau: 42.8%</title></rect>
-            <rect class="bN" x="150" y="188" width="368" height="14"><title>Covalima: 39.4%</title></rect>
-            <rect class="bN" x="150" y="211" width="346" height="14"><title>Manufahi: 37.1%</title></rect>
-            <rect class="bN" x="150" y="234" width="344" height="14"><title>Lautém: 36.9%</title></rect>
-            <rect class="bN" x="150" y="257" width="326" height="14"><title>Dili: 34.9%</title></rect>
-            <rect class="bN" x="150" y="280" width="326" height="14"><title>Manatuto: 34.9%</title></rect>
-          </g>
-          <g class="nm">
-            <text x="142" y="15" text-anchor="end">Ermera</text>
-            <text x="142" y="38" text-anchor="end">Oecusse</text>
-            <text x="142" y="61" text-anchor="end">Viqueque</text>
-            <text x="142" y="84" text-anchor="end">Ainaro</text>
-            <text x="142" y="107" text-anchor="end">Bobonaro</text>
-            <text x="142" y="130" text-anchor="end">Liquiça</text>
-            <text x="142" y="153" text-anchor="end">Aileu</text>
-            <text x="142" y="176" text-anchor="end">Baucau</text>
-            <text x="142" y="199" text-anchor="end">Covalima</text>
-            <text x="142" y="222" text-anchor="end">Manufahi</text>
-            <text x="142" y="245" text-anchor="end">Lautém</text>
-            <text x="142" y="268" text-anchor="end">Dili</text>
-            <text x="142" y="291" text-anchor="end">Manatuto</text>
-          </g>
-          <g class="vl">
-            <text x="694" y="15">57.4</text>
-            <text x="689" y="38">56.9</text>
-            <text x="668" y="61">54.7</text>
-            <text x="646" y="84">52.3</text>
-            <text x="620" y="107">49.5</text>
-            <text x="593" y="130">46.6</text>
-            <text x="588" y="153">46.1</text>
-            <text x="557" y="176">42.8</text>
-            <text x="526" y="199">39.4</text>
-            <text x="504" y="222">37.1</text>
-            <text x="502" y="245">36.9</text>
-            <text x="484" y="268">34.9</text>
-            <text x="484" y="291">34.9</text>
-          </g>
-        </svg>
-        <figcaption>By municipality, TLDHS 2025-26 (%). Rust bars sit above the national average of 44.9% (dashed line). Atauro (52.2%) omitted, sample of 21.</figcaption>
-      </figure>
-    </div>
-    <p class="ctx" style="margin-top:1.6rem;max-width:72ch">Gradients run the same way everywhere: rural <strong>47.6%</strong> vs urban <strong>36.7%</strong>; poorest wealth quintile <strong>56.5%</strong> vs richest <strong>32.3%</strong>, a gap that has doubled since 2016. A 22.5-point spread separates Ermera from Dili.</p>
+  <div class="sec-h" style="margin-top:26px">
+    <div><h2>All 14 census areas</h2><p class="note">Click a column to sort; click a row to select. Population is the 2022 census where the report publishes it.</p></div>
   </div>
+  <div class="tblwrap">
+    <table id="munTable">
+      <caption class="sr">Stunting by municipality, TLDHS 2025–26</caption>
+      <thead><tr>
+        <th scope="col"><button data-sort="name">Area <span class="arrow"></span></button></th>
+        <th scope="col" class="right"><button data-sort="s">Stunting % <span class="arrow"></span></button></th>
+        <th scope="col" class="right"><button data-sort="sev">Severe % <span class="arrow"></span></button></th>
+        <th scope="col" class="right"><button data-sort="gap">vs national (pp) <span class="arrow"></span></button></th>
+        <th scope="col" class="right"><button data-sort="pop">Population 2022 <span class="arrow"></span></button></th>
+        <th scope="col">Notes</th>
+      </tr></thead>
+      <tbody id="munTbody"></tbody>
+    </table>
+  </div>
+  <div id="tableEmpty" hidden style="margin-top:12px"></div>
 </section>
 
-<section id="causes" aria-labelledby="h-causes">
-  <div class="wrap">
-    <h2 id="h-causes" class="sec-h">Why it persists</h2>
-    <p class="sub sec-sub">A chain of deprivation runs from the mother's plate to the national purse. Three tiers, UNICEF framework.</p>
-    <div class="cgrid">
-      <div>
-        <p class="tier">Immediate</p>
-        <ul>
-          <li><strong>Diet.</strong> 96.9% of toddlers ate starchy staples in the prior day; only 36.6% ate flesh foods and 3.1% dairy (2020).</li>
-          <li><strong>Illness.</strong> Diarrhoea 14% and fever 22% in two weeks; sick children are often fed less, not more.</li>
-          <li><strong>Timing.</strong> Stunting peaks at 55.5% at ages 24-35m, the tail of the first 1,000 days.</li>
-        </ul>
-      </div>
-      <div>
-        <p class="tier">Underlying</p>
-        <ul>
-          <li><strong>Households.</strong> 50.4% moderately or severely food insecure (2020); the lean season runs November to March.</li>
-          <li><strong>Hygiene.</strong> 28.4% basic handwashing facility; 6.2% of caregivers wash hands before feeding a child.</li>
-          <li><strong>Care.</strong> 21.7% of women never attended school; 57.8% of births come within 36 months of the last.</li>
-        </ul>
-      </div>
-      <div>
-        <p class="tier">Structural</p>
-        <ul>
-          <li><strong>Poverty.</strong> 41.8% by the national line (2014); 48.3% multidimensionally poor.</li>
-          <li><strong>Food system.</strong> Rain-fed farming, about 60% of cereals imported, El Niño drought in 2023-24.</li>
-          <li><strong>Fiscal cliff.</strong> The Petroleum Fund is projected to deplete around 2034; nutrition gets about 2% of the budget.</li>
-        </ul>
-      </div>
+<section class="view" id="view-drivers" role="tabpanel" aria-labelledby="tab-drivers" hidden>
+  <div class="sec-h">
+    <div><h2>What drives stunting</h2><p class="note">UNICEF framework layers, as measured in Timor-Leste. Filter by layer.</p></div>
+    <div class="chips" role="group" aria-label="Filter drivers by layer">
+      <button class="chip" data-domain="all" aria-pressed="true">All layers</button>
+      <button class="chip" data-domain="imm" aria-pressed="false">Immediate</button>
+      <button class="chip" data-domain="und" aria-pressed="false">Underlying &amp; services</button>
+      <button class="chip" data-domain="fnd" aria-pressed="false">Foundational</button>
     </div>
   </div>
-</section>
 
-<section id="fix" aria-labelledby="h-fix">
-  <div class="wrap">
-    <h2 id="h-fix" class="sec-h">What works, and what it costs</h2>
-    <p class="sub sec-sub">The evidence base is strong, the national plan exists, and the financing gap is small by budget standards.</p>
-    <div class="cols-f">
-      <div>
-        <h3 style="margin-bottom:.2rem">Proven interventions</h3>
-        <ul class="wlist">
-          <li><strong>Small-quantity lipid-based nutrients</strong> for ages 6-24m: severe stunting down 15-17% in trial meta-analyses.</li>
-          <li><strong>Treat wasting now.</strong> CMAM/RUTF reached 63% of cases in 2023; wasting has doubled since 2020.</li>
-          <li><strong>Feeding counselling.</strong> Exclusive breastfeeding has sat near 50-55% for fifteen years; dietary diversity collapsed to 19.1%.</li>
-          <li><strong>The Lancet core package</strong> at 90% coverage would avert about 20% of stunting and 15% of under-five deaths.</li>
-        </ul>
-      </div>
-      <div class="roi">
-        <p class="huge">$1 &rarr; $23</p>
-        <p class="cap">return per dollar on full-scale nutrition action, World Bank Investment Framework for Nutrition, 2024.</p>
-        <ul>
-          <li><strong>Timor-Leste ask:</strong> +US$55M to 2030, about US$7M a year or 0.3% of GDP.</li>
-          <li><strong>Documented return:</strong> more than US$10 per US$1 invested (World Bank national costing).</li>
-          <li><strong>Cost of inaction:</strong> US$41M a year in lost economic activity, about 1% of GDP.</li>
-          <li><strong>Goal:</strong> stunting below 25% by 2030 under PANKOS, approved November 2025.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="feedback" aria-labelledby="h-fb">
-  <div class="wrap">
-    <h2 id="h-fb" class="sec-h">Was this brief useful?</h2>
-    <p class="sub sec-sub">Thirty seconds. No name or email is requested. Submitted responses go to the feedback endpoint and are also stored in this browser for export.</p>
-    <div class="cols-fb">
-      <div>
-        <form id="fb-form" action="https://formspree.io/f/xdearnlo" method="post" novalidate>
-          <label class="sr" for="fb-website">Leave this field empty</label>
-          <input class="sr" type="text" id="fb-website" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <fieldset>
-            <legend class="lbl">Overall usefulness for your work</legend>
-            <div class="scale">
-              <input type="radio" name="rating" id="r1" value="1"><label for="r1">1<small>Not useful</small></label>
-              <input type="radio" name="rating" id="r2" value="2"><label for="r2">2<small>Limited</small></label>
-              <input type="radio" name="rating" id="r3" value="3"><label for="r3">3<small>Useful</small></label>
-              <input type="radio" name="rating" id="r4" value="4"><label for="r4">4<small>Strong</small></label>
-              <input type="radio" name="rating" id="r5" value="5"><label for="r5">5<small>Excellent</small></label>
+  <div class="stack" id="driverStack">
+    <div class="card" data-domain="imm">
+      <div class="card-h"><div><h3>Immediate — diet and disease</h3><div class="src">Children 6–23 m unless noted · TLDHS 2025–26, TL-FNS 2020, TL-DHS 2016 [1][4][5]</div></div></div>
+      <div class="card-b">
+        <div class="grid g2b">
+          <div>
+            <div id="iycfWrap"></div>
+            <div class="legend">
+              <span><i style="background:#c2ab8b"></i>2016</span>
+              <span><i style="background:#7d9fa0"></i>2020</span>
+              <span><i style="background:#a94f2c"></i>2025–26</span>
+              <span class="muted">Hover a dot for the exact value.</span>
             </div>
-          </fieldset>
-          <label class="lbl" for="fb-comment" style="margin-bottom:.5rem">What would make it more useful? (optional)</label>
-          <textarea id="fb-comment" maxlength="800" placeholder="Missing numbers, wrong emphasis, layout problems, questions about the data"></textarea>
-          <p id="fb-err" class="err" role="alert" hidden></p>
-          <div class="row">
-            <button type="submit" class="primary">Submit feedback</button>
+            <p class="cap">Only 19.1% of toddlers met minimum dietary diversity in 2025–26 — fewer than one in five, and down 16 points from 2020 on the same definition [1][4].</p>
           </div>
-        </form>
-        <div id="fb-done" class="donebox" hidden>
-          <h3 id="fb-done-h" tabindex="-1">Thanks, that is logged.</h3>
-          <p>Your response has been sent and a copy is stored in this browser. Use an export button to save or share the locally stored responses.</p>
-          <div class="row"><button id="fb-again">Submit another response</button></div>
+          <div>
+            <div id="diseaseWrap"></div>
+            <div class="legend"><span><i style="background:#a94f2c"></i>2025–26</span><span><i style="background:#c9b79c"></i>2016</span></div>
+            <p class="cap">Diarrhoea raised the odds of stunting by 24% and fever by 19% in the 2020 survey model [4]. In 2016, 74% of children with diarrhoea were given <em>less</em> food than usual [5].</p>
+          </div>
         </div>
       </div>
-      <div class="storebox">
-        <h3 class="lbl" style="margin-bottom:.2rem">Collected responses</h3>
-        <p id="fb-count" role="status"></p>
-        <div class="row">
-          <button id="fb-export" disabled>Export JSON</button>
-          <button id="fb-copy" disabled>Copy as text</button>
-          <button id="fb-clear" disabled>Clear stored feedback</button>
+    </div>
+
+    <div class="card" data-domain="und">
+      <div class="card-h"><div><h3>Underlying — households, services and care</h3><div class="src">JMP 2024/25, TLDHS 2025–26, TL-DHS 2016, FNS 2020 [1][4][5][70][71]</div></div></div>
+      <div class="card-b">
+        <div class="grid g3">
+          <div>
+            <h4 class="small" style="font-weight:600;margin-bottom:8px">First-1,000-days services</h4>
+            <div id="servicesWrap"></div>
+            <div class="legend"><span><i style="background:#a99f8d"></i>2016</span><span><i style="background:#a94f2c"></i>2025–26</span><span class="muted">Change, pp</span></div>
+            <p class="cap">Postnatal checks reach 56.2% of mothers within two days; 4+ ANC visits and tetanus protection have slipped [1].</p>
+          </div>
+          <div>
+            <h4 class="small" style="font-weight:600;margin-bottom:8px">Water, sanitation, hygiene</h4>
+            <div id="washWrap"></div>
+            <p class="cap">87.1% of households had soap and water, yet only 6.1% washed hands after disposing of child faeces [4].</p>
+          </div>
+          <div>
+            <h4 class="small" style="font-weight:600;margin-bottom:8px">Food insecurity</h4>
+            <div id="fiesWrap"></div>
+            <p class="cap">The lean season runs November–March, peaking around January before the maize and rice harvests [55].</p>
+          </div>
         </div>
-        <p id="fb-note" role="status" hidden></p>
+        <hr class="hr">
+        <div class="grid g2b">
+          <div>
+            <h4 class="small" style="font-weight:600;margin-bottom:8px">Women's status and maternal health</h4>
+            <div class="statgrid" id="womenWrap" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr))"></div>
+          </div>
+          <div>
+            <h4 class="small" style="font-weight:600;margin-bottom:8px">Severe food insecurity by municipality, 2020</h4>
+            <div id="fiesMunWrap"></div>
+            <p class="cap">Only three municipal values are reported in the source; other areas are not shown rather than estimated [4].</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-domain="fnd">
+      <div class="card-h"><div><h3>Foundational — poverty, economy and climate</h3><div class="src">2014–2026 sources as cited in the report [30][31][33][34][38][77]</div></div></div>
+      <div class="card-b">
+        <div class="statgrid" id="foundWrap"></div>
+        <div class="callout teal" style="margin-top:14px"><b>The fiscal clock.</b> More than 90% of state revenue has come from oil and gas; the Petroleum Fund is projected to be depleted by 2034, while nutrition spending is ≈US$49m a year — about 2% of the budget [33][34][12][38].</div>
       </div>
     </div>
   </div>
 </section>
+
+<section class="view" id="view-equity" role="tabpanel" aria-labelledby="tab-equity" hidden>
+  <div class="sec-h">
+    <div><h2>Who carries the burden</h2><p class="note">Documented gradients, 2025–26 with 2016 where comparable [1][5].</p></div>
+  </div>
+  <div class="grid g2">
+    <div class="card">
+      <div class="card-h"><div><h3>Risk gradients</h3><div class="src">Stunting % by group · TLDHS 2025–26</div></div></div>
+      <div class="card-b" id="equityWrap"></div>
+      <div class="legend" style="padding:0 18px 16px"><span><i style="background:#a94f2c"></i>Higher-risk group</span><span><i style="background:#2d6468"></i>Lower-risk group</span></div>
+    </div>
+    <div class="stack">
+      <div class="callout"><b>Gap watch.</b> The wealth gap more than doubled — from 11.7 pp in 2016 to 24.2 pp in 2025–26. Growth, where it occurred, bypassed the poorest households [1][5].</div>
+      <div class="card">
+        <div class="card-h"><div><h3>National spread</h3><div class="src">TLDHS 2025–26 [1]</div></div></div>
+        <div class="card-b">
+          <div class="statgrid" style="grid-template-columns:1fr 1fr">
+            <div class="stat"><div class="k">Lowest burden</div><div class="v">34.9<small>%</small></div><div class="s">Dili, Manatuto</div></div>
+            <div class="stat"><div class="k">Highest burden</div><div class="v">57.4<small>%</small></div><div class="s">Ermera</div></div>
+          </div>
+          <p class="cap">A 22.5-point spread: a child's risk varies by nearly two-thirds depending on where they are born.</p>
+        </div>
+      </div>
+      <div class="callout teal"><b>Rural is the default.</b> 47.6% rural vs 36.7% urban, and about 71% of the population is rural — so the excess translates into tens of thousands of additional stunted children [1][97].</div>
+    </div>
+  </div>
+  <div class="sec-h" style="margin-top:26px">
+    <div><h2>Where vulnerabilities overlap</h2><p class="note">Each card is a documented overlap in the source — not a modelled combination.</p></div>
+  </div>
+  <div class="grid g3" id="interWrap"></div>
+</section>
+
+<section class="view" id="view-response" role="tabpanel" aria-labelledby="tab-response" hidden>
+  <div class="sec-h">
+    <div><h2>Policy architecture</h2><p class="note">Verified milestones only [14][36][37][109].</p></div>
+  </div>
+  <div class="grid g2">
+    <div class="card">
+      <div class="card-h"><div><h3>Governance timeline</h3><div class="src">2004 – 2026</div></div></div>
+      <div class="card-b"><ol class="tl" id="timelineWrap"></ol></div>
+    </div>
+    <div class="stack">
+      <div class="card">
+        <div class="card-h"><div><h3>What works — effect sizes</h3><div class="src">Reduction in risk, % · Cochrane, Lancet, IPD meta-analyses [40][46][125][126][127]</div></div></div>
+        <div class="card-b" id="effectsWrap"></div>
+      </div>
+      <div class="callout"><b>No nutrition trial has ever been run in Timor-Leste.</b> The only cluster-RCT (WASH-for-WORMS) found no child-health gain beyond deworming; the MDG-F evaluation improved wasting severity but not stunting [41][42].</div>
+    </div>
+  </div>
+  <div class="grid g3" style="margin-top:16px">
+    <div class="card"><div class="card-h"><div><h3>Investment case</h3><div class="src">World Bank frameworks [38][39][129]</div></div></div>
+      <div class="card-b" id="roiWrap"></div></div>
+    <div class="card"><div class="card-h"><div><h3>What does not work alone</h3><div class="src">Randomised and meta-analytic evidence [42][62][63][102][103][104]</div></div></div>
+      <div class="card-b">
+        <p class="small" style="line-height:1.6"><b>WASH hardware.</b> WASH Benefits (Bangladesh) and SHINE (Zimbabwe) found no stunting effect from household WASH despite cutting diarrhoea; Timor-Leste's own trial was null too. WASH remains essential for health — but should not promise growth [42][62][63].</p>
+        <hr class="hr">
+        <p class="small" style="line-height:1.6"><b>Unconditional cash alone.</b> Meta-analyses find height-for-age gains of ≈0–0.03 SD. Cash is a platform; its nutrition payoff depends on conditionality and bundled services [102][103][104].</p>
+      </div></div>
+    <div class="card"><div class="card-h"><div><h3>Country success stories</h3><div class="src">Verified trajectories [124][131][132][133][134][135][136]</div></div></div>
+      <div class="card-b" id="successWrap"></div></div>
+  </div>
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card">
+      <div class="card-h"><div><h3>Barriers to implementation</h3><div class="src">Report Section 11</div></div></div>
+      <div class="card-b"><ol class="deflist cols2" id="barrierWrap"></ol></div>
+    </div>
+    <div class="card">
+      <div class="card-h"><div><h3>Donor and financing lines</h3><div class="src">Reported commitments, 2024–2026 [12][38][82][115][116][117][118][119][120]</div></div></div>
+      <div class="card-b" style="padding-top:4px"><div class="tblwrap" style="border:0"><table style="min-width:0">
+        <thead><tr><th scope="col">Partner</th><th scope="col">Scope</th><th scope="col" class="right">Value</th></tr></thead>
+        <tbody id="donorBody"></tbody></table></div></div>
+    </div>
+  </div>
+  <div class="sec-h" style="margin-top:26px">
+    <div><h2>Sequenced recommendations</h2><p class="note">Condensed from the report's 12 recommendations.</p></div>
+  </div>
+  <div class="grid g3">
+    <div class="card"><div class="card-h"><div><h3>Immediate · 0–12 months</h3><div class="src">Stop the acute bleeding</div></div></div><div class="card-b"><ul class="rec" id="rec0"></ul></div></div>
+    <div class="card"><div class="card-h"><div><h3>Near-term · 1–3 years</h3><div class="src">Build the platform</div></div></div><div class="card-b"><ul class="rec" id="rec1"></ul></div></div>
+    <div class="card"><div class="card-h"><div><h3>Sustained · 3–10 years</h3><div class="src">Change the structural curve</div></div></div><div class="card-b"><ul class="rec" id="rec2"></ul></div></div>
+  </div>
+</section>
+
 </main>
 
-<footer>
+<footer class="foot">
   <div class="wrap">
-    <p>Compiled October 2026 from “Childhood Stunting in Timor-Leste: Comprehensive Problem Identification” (fully referenced). Primary sources: TLDHS 2025-26 Key Indicators Report; TL-FNS 2020; TL-DHS 2003, 2009-10, 2016; UNICEF/WHO/World Bank Joint Malnutrition Estimates 2025; World Bank CNAP-NFS costing 2024.</p>
-    <p>Survey estimates carry sampling error; contested figures and full caveats are documented in the source analysis. Single-file page with no tracking; submitted feedback is sent to Formspree and stored locally for export.</p>
+    <p><b>Source.</b> All figures are as reported in <em>Childhood Stunting in Timor-Leste: Comprehensive Problem Identification</em> (14 October 2026); bracketed [n] values refer to its reference list. Where the report flags a figure as modelled, approximate or unreliable, that is noted here. Empty values mean the source does not publish them — they are not zero.</p>
+    <p><b>Notes.</b> Atauro's 2025–26 estimate rests on n=21 and is marked unreliable in the source. The 2016 DHS was excluded from JME modelling for measurement issues (notably Ermera and Liquiçá). Child anaemia was not tested in 2025–26. Map boundaries use geoBoundaries ADM1 (simplified) and are illustrative; labels mark approximate municipal centres. Values are not interpolated between surveys.</p>
   </div>
 </footer>
 
+<div class="tt" id="tt" role="tooltip" aria-hidden="true"></div>
+
 <script>
-(function(){
-"use strict";
-var KEY="tl-stunting-feedback-v1",mem=null,blocked=false;
-function load(){if(mem)return mem;try{mem=JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){blocked=true;mem=[]}return mem}
-function persist(a){mem=a;if(blocked)return;try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){blocked=true}}
-function $(id){return document.getElementById(id)}
-var form=$("fb-form"),err=$("fb-err"),done=$("fb-done"),comment=$("fb-comment"),note=$("fb-note"),countEl=$("fb-count");
-var bExport=$("fb-export"),bCopy=$("fb-copy"),bClear=$("fb-clear");
-function refresh(){
-  var n=load().length;
-  countEl.textContent=n===0?"No responses stored on this device yet. Successfully submitted feedback appears here.":n+(n===1?" response stored on this device.":" responses stored on this device.");
-  bExport.disabled=bCopy.disabled=bClear.disabled=(n===0);
+'use strict';
+const GEO={"view":[2.7,-390.9,863.7,373.7],"regions":{"Oecusse":"M10.7 -67.6 L12.8 -64.8 L14.5 -64.6 L24.9 -49.8 L30.9 -50.2 L34.5 -45.2 L38.3 -44.8 L38.7 -46.2 L41.7 -47 L41.1 -48.7 L44.1 -51.9 L43.2 -53.5 L55.9 -60.9 L67.1 -53.1 L69.8 -48.8 L70.4 -43.1 L73.7 -38.7 L73.9 -33.1 L71.3 -25.4 L76.2 -25.2 L78 -27.4 L81.9 -27.3 L87.8 -30.5 L91.2 -29.8 L91.6 -35.2 L93.7 -36.5 L92.9 -39.8 L90 -41.7 L90.1 -44.5 L97.6 -52.9 L98 -55.2 L95.9 -58 L97.5 -63.2 L100.4 -62.4 L105 -68.5 L112.5 -69.2 L113 -74.2 L118.6 -77.8 L116.6 -86.5 L119.8 -91.2 L120.3 -101.8 L124 -104.5 L122.9 -110.2 L115.2 -112.6 L109.8 -112.4 L105.8 -110.9 L102.3 -107.1 L94.9 -104.4 L79.4 -104.2 L77 -100.7 L67.3 -97.2 L65.4 -94.5 L57.1 -94.3 L54.9 -92.4 L47.7 -91 L44.2 -83.2 L40.2 -79.1 L35.2 -78.7 L33 -76.1 L28.3 -75.2 L24.7 -71.7 L18.9 -71.5 L10.7 -67.6 Z","Aileu":"M389.8 -255.4 L392.7 -240.6 L390.7 -232.4 L385.7 -231.4 L377 -233 L376 -231.9 L377.2 -229.3 L380.1 -229.3 L382.7 -223.3 L375.7 -209.7 L379.9 -206.6 L383 -197.7 L390.1 -195.2 L394.8 -195.2 L397.1 -197.8 L401.9 -199.2 L401.9 -202.1 L409.5 -203 L409.7 -207.9 L412.6 -210.2 L423.1 -214.4 L436.9 -215.8 L438.4 -212.7 L434 -206.7 L443.4 -207.4 L448.9 -212.5 L452.3 -218.4 L456.4 -231.7 L456.7 -238.4 L451 -246.3 L450.9 -251.4 L447 -256.1 L441 -257.7 L440.8 -264.7 L430.4 -266.1 L421.5 -261.8 L389.8 -255.4 Z","Ainaro":"M383 -197.7 L383 -183.1 L373.8 -164 L364.3 -152.7 L359.3 -149.1 L342.9 -141.8 L344.8 -134.5 L351.6 -131.6 L350.2 -126.9 L345.1 -125 L340.6 -121.3 L340.7 -116.6 L345.3 -115.9 L346.9 -113.2 L340.9 -105.1 L342.8 -101 L343.2 -91.6 L344.9 -86.8 L349.2 -82.4 L357.8 -87.4 L367.9 -88.2 L373.7 -90.3 L386 -97.2 L397.1 -99 L410.2 -107.3 L418.2 -107.2 L430 -103.6 L436.1 -105.1 L430 -110.3 L426.9 -122.4 L422.1 -128.9 L402.4 -144.7 L401.8 -153.3 L396.1 -161.7 L401.2 -163.8 L404.9 -169.5 L412.8 -175.7 L419.3 -175.3 L427.4 -180.1 L434 -206.7 L438.4 -212.7 L436.9 -215.8 L423.1 -214.4 L412.6 -210.2 L409.7 -207.9 L409.5 -203 L401.9 -202.1 L401.9 -199.2 L397.1 -197.8 L394.8 -195.2 L390.1 -195.2 L383 -197.7 Z","Baucau":"M697.6 -308.9 L693.6 -306 L671.1 -296.7 L667.4 -293.7 L663.2 -293.7 L659.5 -290.3 L656 -290.8 L643.8 -298.6 L630.9 -302.3 L626.8 -305.9 L620.7 -308.2 L611.6 -304.6 L609.5 -306.1 L606.4 -305.1 L601.2 -299 L593.1 -297.5 L585.8 -291.1 L579.2 -289.6 L574.9 -285.4 L566.7 -287.2 L560.7 -285.2 L562.7 -275.5 L564.7 -273.8 L566.5 -263.1 L564.5 -255.6 L570.4 -239.8 L577.8 -242.8 L590.9 -237.8 L599.6 -237.3 L612.2 -240.1 L620 -236.3 L624.3 -236.6 L634.1 -245.7 L640.4 -245.7 L652.2 -245.2 L662.2 -241.9 L663.7 -238.8 L671.3 -239.4 L700.6 -236.5 L705 -239 L706.7 -242.4 L719.4 -254.4 L719.4 -258.5 L717.4 -261.5 L717.9 -266.2 L713.4 -269 L708.8 -276.8 L708.8 -285.4 L703.7 -296.8 L699.2 -300.8 L697.6 -308.9 Z","Bobonaro":"M369.3 -158.6 L353 -159.6 L347.2 -163.7 L345.4 -168.1 L344.8 -178.3 L333.2 -184.5 L327.6 -202.8 L322 -211.7 L317.8 -215.4 L309.6 -215.9 L303.6 -220.7 L291.4 -221.2 L289.8 -223.4 L280.4 -223.1 L281.7 -208.9 L274.7 -201.4 L267.2 -200.4 L258.4 -191.4 L257.1 -183.5 L253.7 -175.7 L251 -171 L244.1 -166.9 L244.7 -164.7 L239.9 -157 L240.9 -151.2 L239.6 -151.3 L239.4 -148.8 L242.1 -146.4 L241.5 -143.9 L243.6 -142.3 L244.8 -143.3 L245.7 -140.9 L249.1 -141.4 L251.9 -138.6 L254.1 -140.3 L257.6 -139.4 L259.1 -142.6 L262.6 -142.7 L262.4 -144.9 L264.8 -144.8 L266.5 -147.3 L276.7 -150.2 L281.2 -155 L283.7 -163 L286.1 -164.9 L291.7 -157.5 L295.1 -156.9 L305 -148.4 L305.5 -141.8 L304.3 -139.5 L305.2 -137 L301.5 -128.6 L303.2 -125.5 L300.8 -124 L302.5 -118.8 L304.6 -118.2 L306.4 -115.3 L302.3 -111.7 L308.9 -109.1 L313.6 -110.4 L315.3 -107 L320.2 -104.9 L323.2 -101.9 L330.9 -106.3 L332.1 -108.3 L337.2 -107.8 L340.9 -105.1 L346.9 -113.2 L345.3 -115.9 L340.7 -116.6 L340.6 -121.3 L345.1 -125 L350.2 -126.9 L351.6 -131.6 L344.8 -134.5 L342.9 -141.8 L359.3 -149.1 L369.3 -158.6 Z","Covalima":"M340.9 -105.1 L337.2 -107.8 L332.1 -108.3 L330.9 -106.3 L323.2 -101.9 L320.2 -104.9 L315.3 -107 L313.6 -110.4 L308.9 -109.1 L302.3 -111.7 L301.8 -110.5 L295 -111.6 L291.3 -110.5 L282.1 -103.9 L277.4 -107.1 L276.1 -110.4 L270.3 -112.1 L267.7 -110.6 L260.4 -112.1 L258.4 -108.6 L252.5 -106.3 L252.3 -93.2 L253 -90.3 L256.2 -87.9 L255.4 -80.6 L258.5 -79.4 L264.5 -72.6 L268 -72.4 L270.1 -70.5 L269.8 -62.7 L277.2 -54.9 L277.1 -41 L279.3 -38.6 L279.2 -35.6 L285.8 -42.6 L291.8 -46.4 L306.3 -49.7 L310.5 -49.1 L321.6 -59.4 L324.1 -64 L328.3 -64.3 L335.5 -73.3 L349.2 -82.4 L344.9 -86.8 L343.2 -91.6 L342.8 -101 L340.9 -105.1 Z","Dili":"M440.8 -264.7 L454.6 -266.7 L465.1 -274.4 L468.4 -275.1 L476 -282.2 L469.4 -288.4 L467.6 -288.4 L464.7 -284.9 L456.4 -282 L452.4 -282.3 L448 -279.2 L445.7 -279.9 L443.6 -278.3 L440.5 -280.7 L438.9 -277.1 L436.4 -276.5 L435.3 -277.5 L432 -276.7 L428.1 -279.6 L419.3 -278.9 L417.4 -279.1 L416.6 -280.9 L413.2 -281 L414.9 -276.7 L412.6 -274 L404.5 -272.1 L394.6 -276.2 L392.7 -255.9 L421.5 -261.8 L430.4 -266.1 L440.8 -264.7 Z","Atauro":"M415.9 -381.2 L408.9 -373.9 L398.4 -359 L392.6 -357.7 L390.3 -351.9 L386.3 -348.7 L387.2 -344.1 L392.9 -338.9 L399 -338.7 L401 -336.3 L405.3 -335.7 L410.9 -341.8 L413.4 -349.2 L413.6 -358.2 L419.5 -365.5 L422.3 -373.7 L420.3 -382.9 L415.9 -381.2 Z","Ermera":"M389.8 -255.4 L375.8 -255.3 L360.6 -244.8 L354.7 -242.1 L348.2 -242.3 L329.6 -227.8 L322.4 -226.6 L320.4 -225 L313 -225.1 L303.6 -220.7 L309.6 -215.9 L317.8 -215.4 L322 -211.7 L327.6 -202.8 L333.2 -184.5 L344.8 -178.3 L345.4 -168.1 L347.2 -163.7 L353 -159.6 L369.3 -158.6 L380.4 -175.8 L383 -183.1 L383 -197.7 L379.9 -206.6 L375.7 -209.7 L382.7 -223.3 L380.1 -229.3 L377.2 -229.3 L376 -231.9 L377 -233 L385.7 -231.4 L390.7 -232.4 L392.7 -240.6 L389.8 -255.4 Z","Lautém":"M700.2 -236.6 L704.1 -219.1 L710 -221.7 L713.4 -221.5 L714.1 -219.8 L725 -218.3 L731.8 -219.9 L742.8 -229.1 L749.4 -231.4 L754 -235.8 L759.4 -238.5 L764.1 -238.3 L764.9 -239.4 L766.6 -238.2 L767.7 -239.3 L774.1 -237.5 L777.4 -242.8 L783.6 -248.1 L798.9 -266.1 L820.9 -280.8 L829.8 -291.4 L838.5 -296.3 L841.8 -301.6 L847.8 -303.7 L847.3 -313.4 L843.2 -315.5 L830.6 -317.5 L821 -328.7 L816.8 -329.1 L805.6 -321 L798 -320.4 L787.1 -321.5 L782.9 -326.7 L777.4 -327.8 L771.1 -332.4 L760.8 -331.1 L753.9 -328.2 L742.9 -320.1 L738.7 -319.2 L726.3 -311.9 L718.6 -310.4 L715.5 -307.3 L708.4 -306.7 L701.1 -311.2 L697.6 -308.9 L698 -303.6 L703.7 -296.8 L708.8 -285.4 L708.8 -276.8 L710.4 -273.2 L713.4 -269 L717.9 -266.2 L717.4 -261.5 L719.4 -258.5 L719.4 -254.4 L706.7 -242.4 L705 -239 L700.2 -236.6 ZM855.9 -300.5 L858.4 -301.7 L858 -305.3 L856 -307.9 L851.9 -308.8 L850.1 -307.6 L850.3 -302.6 L853 -300.1 L855.9 -300.5 Z","Liquiça":"M392.7 -255.9 L394.7 -269.2 L394.1 -276.3 L386.8 -271.1 L380.5 -271.2 L382 -269 L379.8 -266.5 L377.9 -268.4 L373.2 -266.9 L372.7 -268.5 L371.6 -267.4 L366.3 -269.6 L357.8 -269.3 L351.9 -266.2 L342.2 -264.1 L340.5 -262.3 L336.4 -262.8 L333.1 -259.4 L311.1 -258.4 L288.6 -249.7 L282 -236.8 L282.8 -231 L280.4 -223.1 L289.8 -223.4 L291.4 -221.2 L302.1 -220 L313 -225.1 L320.4 -225 L322.4 -226.6 L329.6 -227.8 L348.2 -242.3 L354.7 -242.1 L360.6 -244.8 L375.8 -255.3 L392.7 -255.9 Z","Manatuto":"M443.4 -207.4 L458 -206.8 L467.4 -202.9 L478.2 -188.8 L484.5 -175.5 L487.7 -173.3 L505.3 -170.1 L511.3 -158.6 L516.3 -159 L522.4 -156.1 L526.8 -152.7 L532.6 -143.4 L541.1 -151.6 L551.5 -157.8 L548.7 -167.9 L541.7 -171.5 L538.6 -175.9 L537.6 -183.3 L534.4 -185.6 L534.7 -188 L537.4 -190.3 L537.1 -194.9 L526.7 -210.2 L525.7 -213.9 L526.8 -217.4 L531 -220.9 L543.7 -237.4 L557.6 -236.5 L564.6 -237.3 L570.4 -239.8 L564.5 -255.6 L566.5 -263.1 L564.7 -273.8 L562.7 -275.5 L560.7 -285.2 L555.2 -286.9 L549 -284.1 L545 -284.9 L537.6 -280.9 L533 -281.4 L531.6 -279.9 L530.5 -282.5 L526.9 -281.7 L518.8 -283 L509 -289.8 L503.2 -289.7 L498.5 -292.1 L494.6 -291.1 L475.6 -292.7 L473.4 -291.5 L469.4 -288.4 L476 -282.2 L468.4 -275.1 L465.1 -274.4 L454.6 -266.7 L440.8 -264.7 L441 -257.7 L447 -256.1 L450.9 -251.4 L451 -246.3 L456.7 -238.4 L456.4 -231.7 L452.3 -218.4 L448.9 -212.5 L443.4 -207.4 Z","Manufahi":"M434 -206.7 L427.4 -180.1 L419.3 -175.3 L412.8 -175.7 L404.9 -169.5 L401.2 -163.8 L396.1 -161.7 L401.8 -153.3 L402.4 -144.7 L422.1 -128.9 L426.9 -122.4 L430 -110.3 L436.1 -105.1 L443.6 -112.5 L451 -113 L455.1 -116.1 L462 -118.2 L466.8 -116.8 L469.8 -120.6 L475.6 -123.7 L490.6 -121.2 L499.2 -121.5 L510.6 -127.7 L520.1 -136 L529.8 -140.4 L532.6 -143.4 L526.8 -152.7 L522.4 -156.1 L516.3 -159 L511.3 -158.6 L505.3 -170.1 L487.7 -173.3 L484.5 -175.5 L478.2 -188.8 L467.4 -202.9 L458 -206.8 L449.6 -207.9 L434 -206.7 Z","Viqueque":"M570.4 -239.8 L564.6 -237.3 L557.6 -236.5 L543.7 -237.4 L531 -220.9 L526.8 -217.4 L525.7 -213.9 L526.7 -210.2 L537.1 -194.9 L537.4 -190.3 L534.7 -188 L534.4 -185.6 L537.6 -183.3 L538.6 -175.9 L541.7 -171.5 L548.7 -167.9 L551.5 -157.8 L565.7 -162.5 L591.9 -160.6 L618.7 -169.7 L631.2 -168.5 L636.8 -169.8 L641.2 -173.7 L644.3 -181.1 L653.2 -194.9 L664.4 -207.3 L672.3 -207.3 L677.9 -212.5 L689.5 -217.9 L704.1 -219.1 L700.2 -236.6 L671.3 -239.4 L663.7 -238.8 L662.2 -241.9 L652.2 -245.2 L634.1 -245.7 L624.3 -236.6 L620 -236.3 L612.2 -240.1 L599.6 -237.3 L590.9 -237.8 L577.8 -242.8 L570.4 -239.8 Z"},"cents":{"Oecusse":[71.9,-62.4],"Aileu":[413.6,-231.4],"Ainaro":[390.5,-143],"Baucau":[639.7,-275.6],"Bobonaro":[287.7,-153.4],"Covalima":[285.2,-80.6],"Dili":[431.6,-278.2],"Atauro":[408.5,-358.8],"Ermera":[357.1,-213.2],"Lautém":[768.1,-283.4],"Liquiça":[341.7,-254.8],"Manatuto":[511.2,-241.8],"Manufahi":[465,-145.6],"Viqueque":[624.3,-202.8]}};
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const f1=v=>(v==null?'—':v.toFixed(1));
+const sgn=v=>(v>0?'+':'−')+Math.abs(v).toFixed(1);
+const pop=v=>(v==null?'—':v.toLocaleString('en-US'));
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function tipAttr(html){return ' data-tip="'+encodeURIComponent(html)+'"';}
+
+const MUN={
+ 'Ermera':{s:57.4,sev:30.2,pop:138080,note:'2016 DHS 29.0% is flagged for measurement issues; FNS 2020: 63.4%'},
+ 'Oecusse':{s:56.9,sev:25.9,pop:80726,fies:20.4,label:'Oecusse (RAEOA)'},
+ 'Viqueque':{s:54.7,sev:15.8},
+ 'Ainaro':{s:52.3,sev:24.2,note:'2016 DHS 59.8% · FNS 2020: 60.3%'},
+ 'Atauro':{s:52.2,sev:29.9,n:21},
+ 'Bobonaro':{s:49.5,sev:14.4,pop:106543,fies:19.4,note:'2016 DHS: 53.3%'},
+ 'Liquiça':{s:46.6,sev:14.6},
+ 'Aileu':{s:46.1,sev:15.2},
+ 'Baucau':{s:42.8,sev:16.1,pop:133881},
+ 'Covalima':{s:39.4,sev:13.0,fies:21.1},
+ 'Manufahi':{s:37.1,sev:12.7},
+ 'Lautém':{s:36.9,sev:6.6},
+ 'Dili':{s:34.9,sev:10.8},
+ 'Manatuto':{s:34.9,sev:13.2}
+};
+const NAT={s:44.9,sev:16.5};
+const AREAS=Object.keys(MUN);
+const TREND=[
+ {y:2002,v:55.7,s:'MICS 2002',lab:'2002'},
+ {y:2003,v:54.8,s:'TL-DHS 2003',lab:'2003'},
+ {y:2007,v:57.2,s:'National living-standards survey (JME series)',lab:'2007'},
+ {y:2010,v:58.1,s:'TL-DHS 2009–10',lab:'2009–10'},
+ {y:2013,v:50.2,s:'TL-FNS 2013',lab:'2013'},
+ {y:2016,v:45.6,sev:23.0,s:'TL-DHS 2016',lab:'2016'},
+ {y:2020,v:47.1,sev:16.9,s:'TL-FNS 2020',lab:'2020'},
+ {y:2026,v:44.9,sev:16.5,s:'TLDHS 2025–26',lab:'2025–26'}
+];
+const SURVEYS=['2009–10','2016','2020','2025–26'];
+const PROFILE=[
+ {k:'Stunting',d:'height-for-age < −2 SD',v:{'2009–10':58.1,'2016':45.6,'2020':47.1,'2025–26':44.9},sev:{'2016':23.0,'2020':16.9,'2025–26':16.5}},
+ {k:'Wasting',d:'weight-for-height < −2 SD',v:{'2009–10':18.6,'2016':24.0,'2020':8.6,'2025–26':18.5},sev:{'2016':9.8,'2020':1.5,'2025–26':4.4}},
+ {k:'Underweight',d:'weight-for-age < −2 SD',v:{'2009–10':44.7,'2016':40.4,'2020':32.4,'2025–26':41.4},sev:{'2016':14.4,'2020':7.6,'2025–26':11.6}},
+ {k:'Overweight',d:'weight-for-height > +2 SD',v:{'2016':5.5,'2020':1.2,'2025–26':1.7}}
+];
+const REGION=[{n:'Papua New Guinea',v:47.6},{n:'Timor-Leste',v:45.4,tl:1},{n:'Laos',v:29.9},{n:'Philippines',v:27.7},{n:'Myanmar',v:24.5},{n:'Indonesia',v:22.6},{n:'Cambodia',v:22.0},{n:'Vietnam',v:19.2}];
+const BENCH=[{v:22.7,l:'SE Asia 22.7'},{v:32.2,l:'Sub-Saharan Africa 32.2'}];
+const IYCF=[
+ {l:'Minimum dietary diversity',sub:'≥5 of 8 groups',v:{'2016':[33.6,'older definition'],'2020':[35.3],'2025–26':[19.1]}},
+ {l:'Exclusive breastfeeding',sub:'0–5 months',v:{'2016':[50.2],'2020':[64.2],'2025–26':[54.8]}},
+ {l:'Early initiation',sub:'breastfeeding within 1 h',v:{'2016':[75.0],'2020':[46.8],'2025–26':[59.4]}},
+ {l:'Minimum meal frequency',sub:'6–23 months',v:{'2016':[45.8],'2020':[52.3]}},
+ {l:'Minimum acceptable diet',sub:'6–23 months',v:{'2016':[13.3],'2020':[14.3]}},
+ {l:'Flesh foods',sub:'24-h recall',v:{'2016':[46.2],'2020':[36.6]}},
+ {l:'Eggs',sub:'24-h recall',v:{'2020':[45.5]}},
+ {l:'Dairy',sub:'24-h recall',v:{'2020':[3.1]}},
+ {l:'No eggs and no flesh foods',sub:'24-h recall',v:{'2020':[35.9]}},
+ {l:'Grains, roots, tubers',sub:'24-h recall',v:{'2020':[96.9]}},
+ {l:'Sweet beverages',sub:'6–23 months',v:{'2020':[19.1],'2025–26':[19.4]}},
+ {l:'Unhealthy foods',sub:'6–23 months',v:{'2020':[31.0],'2025–26':[27.7]}}
+];
+const DISEASE=[{l:'Diarrhoea, 2-week',a:14,b:11},{l:'Fever, 2-week',a:22,b:13},{l:'ORS use',a:57,b:70},{l:'Zinc treatment',a:49,b:50},{l:'Care-seeking',a:62,b:65},{l:'Full vaccination',a:52,b:48.7}];
+const SERVICES=[{l:'4+ ANC visits',a:76.3,b:70.9},{l:'Skilled birth attendance',a:59.6,b:78.3},{l:'Institutional delivery',a:50.5,b:71.6},{l:'PNC check ≤2 days',a:34.5,b:56.2},{l:'Full vaccination',a:48.7,b:52},{l:'Tetanus protection',a:71,b:59.9}];
+const WASH=[{l:'Basic drinking water',v:87.3,r:82.3,u:97.7},{l:'Basic sanitation',v:72.9,r:69.4,u:80.1},{l:'Basic hygiene',v:28.4},{l:'Open defecation',v:7.9,r:11.7,u:0}];
+const FIESMUN=[{n:'Covalima',v:21.1},{n:'Oecusse',v:20.4},{n:'Bobonaro',v:19.4}];
+const WOMEN=[
+ {k:'Female literacy, 2022',v:'65.7%',s:'men 73.1% [72]'},
+ {k:'Child marriage <18',v:'15%',s:'women 20–24, 2016 [73]'},
+ {k:'Birth interval <36 m',v:'57.8%',s:'births, 2016 [5]'},
+ {k:'Teenage childbearing',v:'7%',s:'15–19; rural 8.3% [1]'},
+ {k:'Maternal anaemia',v:'30.0%',s:'pregnant 41.7% [1]'},
+ {k:'Thinness (BMI<18.5)',v:'26.6%',s:'women 15–49, 2016 [5]'},
+ {k:'Short stature <145 cm',v:'10.3%',s:'women 15–49, 2016 [5]'},
+ {k:'Anaemia, children 6–59 m',v:'40.3%',s:'2016; not tested 2025–26 [5]'}
+];
+const FOUND=[
+ {k:'Poverty headcount',v:'41.8%',s:'national line, 2014 (latest) [30]'},
+ {k:'Rural poverty',v:'47%',s:'vs 28% urban, ≈390,000 people [76]'},
+ {k:'Multidimensional poverty',v:'48.3%',s:'≈637,000 people; intensity 45.9% [31]'},
+ {k:'Below $3.00/day',v:'44.3%',s:'2021 PPP, 2026 estimate [77]'},
+ {k:'GDP per capita',v:'US$1,341',s:'2025 [78]'},
+ {k:'Cereal import needs',v:'≈60%',s:'of consumption, mostly rice [32]'},
+ {k:'Nutrition spending',v:'≈$49m/yr',s:'≈2% of the state budget [12][38]'},
+ {k:'Incremental ask to 2030',v:'+$55m',s:'≈$7m/yr; 0.3% of GDP; $5 per capita [12][38]'}
+];
+const EQUITY=[
+ {l:'Wealth — lowest vs highest quintile',hi:56.5,lo:32.3,hiL:'Poorest',loL:'Richest',src:'TLDHS 2025–26'},
+ {l:'Wealth — lowest vs highest quintile',hi:48.0,lo:36.3,hiL:'Poorest',loL:'Richest',src:'TL-DHS 2016',old:true},
+ {l:'Residence — rural vs urban',hi:47.6,lo:36.7,hiL:'Rural',loL:'Urban',src:'TLDHS 2025–26'},
+ {l:"Mother's education",hi:57.6,lo:34.4,hiL:'No education',loL:'>Secondary',src:'TLDHS 2025–26'},
+ {l:'Child sex',hi:47.8,lo:41.8,hiL:'Boys',loL:'Girls',src:'TLDHS 2025–26'},
+ {l:'Anaemia — rural vs urban women',hi:31.0,lo:28.8,hiL:'Rural',loL:'Urban',src:'TLDHS 2025–26'}
+];
+const INTER=[
+ {h:'Rural + poorest quintile',v:'56.5%',p:'The poorest-quintile burden sits almost entirely in rural municipalities; rural overall is 47.6%.'},
+ {h:'Mother with no education',v:'57.6%',p:'23.2 points above children of mothers with more than secondary schooling; concentrated in high-burden areas.'},
+ {h:'Age 24–35 months',v:'55.5%',p:'The age peak coincides with the complementary-feeding window where diet quality is worst (MDD 19.1%).'},
+ {h:'Boys',v:'47.8%',p:'Versus 41.8% for girls — a consistent pattern in DHS data, in identical feeding environments.'},
+ {h:'Severe stunting, Ermera',v:'30.2%',p:'Nearly one in three children in Ermera is severely stunted — a municipal emergency.'},
+ {h:'Anaemia, pregnant women',v:'41.7%',p:'Maternal depletion clusters in the same rural areas, closing the intergenerational loop.'}
+];
+const TIMELINE=[
+ {y:'2004',t:'First National Nutrition Strategy; a second (2014–19) defines the nutrition-specific and nutrition-sensitive approach.'},
+ {y:'Nov 2012',t:'<b>KONSSANTIL</b> formed to harmonise cross-ministerial food and nutrition decisions.'},
+ {y:'Jul 2014',t:'<b>PAN-HAM-TIL</b> launched: 170+ actions across five Zero Hunger pillars.'},
+ {y:'Jan 2017',t:'National Food and Nutrition Security Policy (Resolution 12/2017).'},
+ {y:'Oct 2020',t:'Timor-Leste joins the <b>SUN Movement</b>.'},
+ {y:'Dec 2022',t:'<b>UNMICS</b> created by Decree-Law 91/2022 to lead the stunting response.'},
+ {y:'Mar 2023',t:'UNMICS publicly launched.'},
+ {y:'Feb 2025',t:'Nutrition for Growth commitment validated ahead of the Paris summit.'},
+ {y:'Nov 2025',t:'<b>PANKOS 2024–2030</b> approved: stunting below 25% by 2030.',key:true},
+ {y:'Aug 2026',t:'Multisectoral nutrition dashboard and knowledge repository launched with UNICEF.'}
+];
+const EFFECTS=[
+ {l:'Severe wasting · SQ-LNS',v:31,s:'IPD meta-analysis, 14 RCTs [126]'},
+ {l:'Anaemia · SQ-LNS',v:21,s:'Cochrane, 17 trials [125]'},
+ {l:'Stunting · Lancet package at 90% coverage',v:20,s:'10 proven interventions [40]'},
+ {l:'Severe stunting · SQ-LNS',v:17,s:'IPD meta-analysis [126]'},
+ {l:'Under-5 deaths · Lancet package',v:15,s:'at 90% coverage [40]'},
+ {l:'Stunting · SQ-LNS',v:13,s:'UNICEF range 12–14% [127]'}
+];
+const SUCCESS=[
+ {n:'Cambodia',a:50.0,b:21.9,ya:'2000',yb:'2021–22',d:'Economic improvement drove 40% of height gains; maternal nutrition 15%, WASH 10% [131][132][133]'},
+ {n:'Nepal',a:57.1,b:36.0,ya:'2001',yb:'2016',d:'Parental education 24.7%; maternal and child nutrition 19.3%; less open defecation 12.3% [134][135]'},
+ {n:'Vietnam',a:41.1,b:19.2,ya:'2000',yb:'2024',d:'Sustained prioritisation, fortification, IYCF programmes and growth [136]'},
+ {n:'Peru',a:28.0,b:14.0,ya:'2005',yb:'2014',d:'Political priority plus equity-focused scale-up [124]'},
+ {n:'Senegal',a:26.5,b:18.7,ya:'2012',yb:'2015',d:'Political priority plus maternal–child programme scale-up [124]'}
+];
+const DONORS=[
+ ['World Bank','CNAP-NFS costing and ask','+US$55m · 2023–30'],
+ ['UNICEF','Country Programme 2026–2030','US$45.7m · nutrition $4.51m'],
+ ['WFP','CSP 2026–2030: school meals, supply chains','—'],
+ ['European Union','EU–UNICEF nutrition partnership; 2025 envelope','€4.8m · €12m'],
+ ['USAID','Avansa SAN (2024)','US$15m · status uncertain'],
+ ['KOICA','“Say No to 5S” (WFP + WHO)','US$7.86m · 2022–25'],
+ ['ADB','INSPIRE technical assistance','US$2.5m'],
+ ['Japan','School meals via WFP','100,000 children']
+];
+const BARRIERS=[
+ 'Coordination fragmentation: vertical delivery with little household-level impact.',
+ 'Plan overload: 170+ actions diluted focus; prioritisation by cost-effectiveness is the lesson.',
+ 'Fiscal compression: oil-financed budget; Petroleum Fund depletion projected around 2034.',
+ 'Weak targeting: ~47% of Bolsa da Mãe beneficiaries are non-poor; all under-fives outside effective coverage.',
+ 'Decentralisation gaps: municipal nutrition structures only now being created.',
+ 'Regulatory vacuum: no mandatory salt iodisation, no fortification standards, no breastmilk-substitute Code.',
+ 'Human resources: personnel-heavy health budget, skills concentrated in Dili; SISCa coverage 30–89%.',
+ 'Data gaps: 2016 DHS excluded from modelling; child anaemia untested in 2025–26; no iodine, retinol or zinc survey.',
+ 'Shock exposure: four major shocks in five years, with nascent adaptive social protection.',
+ 'Donor volatility: the 2025 US aid freeze left a US$15m programme uncertain.'
+];
+const RECS=[
+ ['Treat the 18.5% wasting emergency as system-wide: surge CMAM/RUTF, MUAC screening at every SISCa and school touchpoint.','Scale SQ-LNS for children 6–23 months in the six highest-burden municipalities.','Close the postnatal gap (44% of mothers unserved): early-initiation counselling, Code enactment, BFHI.','Recover falling indicators: 4+ ANC and neonatal tetanus protection.'],
+ ['Make BdMK-SANUTRIO the template: evaluate the 2026–28 pilot rigorously, then scale with benefit adequacy review.','Enact the legal package: salt iodisation, fortification standards, marketing rules.','Ring-fence the +US$55m ask in the fiscal-cliff debate; adopt dashboard indicators as budget KPIs.','Run Timor-Leste\'s first nutrition trials: SQ-LNS, animal-source foods, agriculture–nutrition designs.'],
+ ['Attack the maternal well: adolescent nutrition, birth spacing (57.8% short intervals), anaemia control (41.7% pregnant).','Equity-first geographic targeting; track the wealth gradient as a headline KPI.','Shock-responsive nutrition: link IPC alerts to pre-financed cash, foods and CMAM scale-up.','Measure what matters: anaemia, iodine and micronutrient surveys; publish SISCa utilisation.']
+];
+
+const state={mun:null,metric:'stunt',thr:58,onlyThr:false,modelled:false,domain:'all',sort:{key:'s',dir:-1}};
+const BINS={
+ stunt:{label:'Stunting',unit:'%',edges:[36,40,44,48,52],colors:['#f5efe6','#ecdcc5','#e0bd99','#d29a6f','#bf744a','#9c4f28'],ticks:['<36','36–40','40–44','44–48','48–52','≥52']},
+ severe:{label:'Severe stunting',unit:'%',edges:[12,18,25],colors:['#f5efe6','#e2c3a2','#cd8a5f','#9c4f28'],ticks:['<12','12–18','18–25','≥25']}
+};
+function binOf(v,m){const b=BINS[m];let i=0;while(i<b.edges.length&&v>=b.edges[i])i++;return i;}
+
+/* ---------- tooltip ---------- */
+const tt=$('#tt');
+function showTip(html,x,y){tt.innerHTML=html;tt.classList.add('on');tt.setAttribute('aria-hidden','false');position(x,y);}
+function position(x,y){const w=tt.offsetWidth,h=tt.offsetHeight;let l=x,h0=y-10;if(l-w/2<8)l=w/2+8;if(l+w/2>innerWidth-8)l=innerWidth-w/2-8;if(h0-h<8)h0=y+h+22;tt.style.left=l+'px';tt.style.top=h0+'px';}
+function hideTip(){tt.classList.remove('on');tt.setAttribute('aria-hidden','true');}
+document.addEventListener('pointerover',e=>{const t=e.target.closest('[data-tip]');if(t)showTip(decodeURIComponent(t.dataset.tip),e.clientX,e.clientY);});
+document.addEventListener('pointermove',e=>{if(tt.classList.contains('on'))position(e.clientX,e.clientY);});
+document.addEventListener('pointerout',e=>{if(e.target.closest('[data-tip]'))hideTip();});
+document.addEventListener('focusin',e=>{const t=e.target.closest('[data-tip]');if(t){const r=t.getBoundingClientRect();showTip(decodeURIComponent(t.dataset.tip),r.left+r.width/2,r.top);}});
+document.addEventListener('focusout',e=>{if(e.target.closest('[data-tip]'))hideTip();});
+addEventListener('scroll',hideTip,{passive:true});
+
+/* ---------- KPI band ---------- */
+function kpi(label,value,unit,sub,tag,dash){
+  return '<div class="kpi"><div class="lab"><span>'+label+'</span>'+(tag?'<span class="tag">'+tag+'</span>':'')+'</div>'+
+  '<div class="v'+(dash?' dash':'')+'">'+value+(unit?'<span class="u">'+unit+'</span>':'')+'</div><div class="s">'+sub+'</div></div>';
 }
-form.addEventListener("change",function(){err.hidden=true});
-form.addEventListener("submit",async function(ev){
-  ev.preventDefault();
-  var sel=form.querySelector("input[name=rating]:checked");
-  if(!sel){err.textContent="Choose a rating from 1 to 5, then submit again.";err.hidden=false;form.querySelector("input[name=rating]").focus();return}
-  if($("fb-website").value)return;
-  err.hidden=true;
-  var submitButton=form.querySelector('button[type="submit"]');
-  submitButton.disabled=true;
-  submitButton.textContent="Sending feedback…";
-  try{
-    var response=await fetch(form.action,{
-      method:"POST",
-      headers:{"Accept":"application/json","Content-Type":"application/json"},
-      body:JSON.stringify({
-        rating:parseInt(sel.value,10),
-        comment:comment.value.trim(),
-        page:"Timor-Leste stunting brief V1",
-        _gotcha:$("fb-website").value
-      })
-    });
-    if(!response.ok)throw new Error("Feedback could not be submitted. Please try again.");
-    var list=load();
-    list.push({ts:new Date().toISOString(),rating:parseInt(sel.value,10),comment:comment.value.trim(),page:"Timor-Leste stunting brief V1"});
-    persist(list);
-    form.hidden=true;done.hidden=false;$("fb-done-h").focus();
-    if(blocked){note.hidden=false;note.textContent="Your response was sent, but local storage is blocked in this browser, so it cannot be exported from this device."}
-    refresh();
-  }catch(e){
-    err.textContent=e.message==="Failed to fetch"?"Network error: feedback was not confirmed as submitted. Check your connection and try again.":e.message;
-    err.hidden=false;
-  }finally{
-    submitButton.disabled=false;
-    submitButton.textContent="Submit feedback";
+function renderKpis(){
+  const m=state.mun?MUN[state.mun]:null;
+  const rank=state.mun?AREAS.slice().sort((a,b)=>MUN[b].s-MUN[a].s).indexOf(state.mun)+1:0;
+  const gap=state.mun?MUN[state.mun].s-NAT.s:0;
+  const band=$('#kpiBand');
+  band.innerHTML=[
+    m?kpi('Stunting · '+esc(state.mun),f1(m.s),'%','Rank '+rank+' of 14 · national 44.9%','selected')
+     :kpi('Stunting','44.9','%','TLDHS 2025–26 · national'),
+    m?kpi('Severe stunting',f1(m.sev),'%','National 16.5% · '+sgn(gap)+' pp vs national','selected')
+     :kpi('Severe stunting','16.5','%','of children under 5 · 2025–26'),
+    m?kpi('Wasting','—','','Not published by municipality','national',true)
+     :kpi('Wasting','18.5','%','Up from 8.6% in 2020'),
+    m?kpi('Underweight','—','','Not published by municipality','national',true)
+     :kpi('Underweight','41.4','%','Most prevalent form'),
+    m?kpi('Min. dietary diversity','—','','Not published by municipality','national',true)
+     :kpi('Min. dietary diversity','19.1','%','6–23 m · was 35.3% in 2020'),
+    kpi('Children stunted','≈70,000','','JME 2024: 69,100','national')
+  ].join('');
+  const chip=$('#ctxChip');
+  if(state.mun){chip.hidden=false;$('#ctxName').textContent=(MUN[state.mun].label||state.mun)+' selected';}
+  else chip.hidden=true;
+}
+
+/* ---------- trend ---------- */
+function renderTrend(){
+  const W=760,H=330,ml=44,mr=16,mt=18,mb=40;
+  const x=y=>ml+(y-2001)/(2030-2001)*(W-ml-mr);
+  const y=v=>mt+(60-v)/60*(H-mt-mb);
+  const pts=TREND.map(d=>[x(d.y),y(d.v)]);
+  const line=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+  let g='';
+  for(let v=0;v<=60;v+=10){g+='<line class="grid-l" x1="'+ml+'" x2="'+(W-mr)+'" y1="'+y(v).toFixed(1)+'" y2="'+y(v).toFixed(1)+'"/><text class="ax" x="'+(ml-8)+'" y="'+(y(v)+3.5).toFixed(1)+'" text-anchor="end">'+v+'</text>';}
+  [2002,2006,2010,2014,2018,2022,2026,2030].forEach(yr=>{g+='<text class="ax" x="'+x(yr).toFixed(1)+'" y="'+(H-mb+18)+'" text-anchor="middle">'+yr+'</text>';});
+  const tgt='<line x1="'+x(2026)+'" y1="'+y(44.9)+'" x2="'+x(2030)+'" y2="'+y(25)+'" stroke="#a94f2c" stroke-width="1.6" stroke-dasharray="5 4" opacity=".85"/>'+
+    '<circle cx="'+x(2030)+'" cy="'+y(25)+'" r="3.2" fill="#fff" stroke="#a94f2c" stroke-width="1.6"/>'+
+    '<text class="ax" x="'+x(2030)+'" y="'+(y(25)-9)+'" text-anchor="end" fill="#a94f2c" font-weight="600">PANKOS target &lt;25%</text>'+
+    '<text class="ax" x="'+x(2028)+'" y="'+y(37)+'" text-anchor="middle" fill="#a94f2c">≈5 pp / yr</text>';
+  const sev=TREND.filter(d=>d.sev!=null).map(d=>[x(d.y),y(d.sev)]);
+  const sevLine=sev.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+  let dots='';
+  TREND.forEach(d=>{
+    const tip='<b>'+esc(d.lab)+'</b><div class="r"><span>'+esc(d.s)+'</span><span>'+f1(d.v)+'%</span></div>'+(d.sev!=null?'<div class="r"><span>Severe</span><span>'+f1(d.sev)+'%</span></div>':'');
+    dots+='<circle class="dot" cx="'+x(d.y)+'" cy="'+y(d.v)+'" r="4.6" fill="#a94f2c" stroke="#fff" stroke-width="1.6" tabindex="0"'+tipAttr(tip)+' aria-label="'+esc(d.lab)+': '+f1(d.v)+' percent"/>';
+  });
+  let jme='';
+  if(state.modelled){
+    const t='<b>2024</b><div class="r"><span>JME 2025 edition (modelled)</span><span>45.4%</span></div>';
+    jme='<polyline points="'+x(2020)+','+y(47.1)+' '+x(2024)+','+y(45.4)+' '+x(2026)+','+y(44.9)+'" fill="none" stroke="#8a8274" stroke-width="1.2" stroke-dasharray="3 3"/>'+
+      '<circle class="dot" cx="'+x(2024)+'" cy="'+y(45.4)+'" r="4" fill="#fff" stroke="#8a8274" stroke-width="1.8" tabindex="0"'+tipAttr(t)+' aria-label="JME 2024 modelled: 45.4 percent"/>';
   }
-});
-$("fb-again").addEventListener("click",function(){form.reset();form.hidden=false;done.hidden=true;form.querySelector("input[name=rating]").focus()});
-bExport.addEventListener("click",function(){
-  var a=load();if(!a.length)return;
-  var blob=new Blob([JSON.stringify({survey:"Childhood Stunting in Timor-Leste brief",exported:new Date().toISOString(),responses:a},null,2)],{type:"application/json"});
-  var u=URL.createObjectURL(blob),el=document.createElement("a");
-  el.href=u;el.download="timor-leste-stunting-feedback.json";document.body.appendChild(el);el.click();el.remove();
-  setTimeout(function(){URL.revokeObjectURL(u)},400);
-  note.hidden=false;note.textContent="Downloaded as timor-leste-stunting-feedback.json";
-});
-bCopy.addEventListener("click",function(){
-  var a=load();if(!a.length)return;
-  var lines=a.map(function(r,i){return (i+1)+") "+r.ts+" - rating "+r.rating+(r.comment?': "'+r.comment+'"':".")}).join("\n");
-  var txt="Feedback, Childhood Stunting in Timor-Leste brief\nExported "+new Date().toISOString()+"\n\n"+lines;
-  if(navigator.clipboard&&navigator.clipboard.writeText){
-    navigator.clipboard.writeText(txt).then(function(){note.hidden=false;note.textContent="Copied to clipboard. Paste it into an email or document."},function(){note.hidden=false;note.textContent="Copy was blocked by the browser. Use Export instead."});
-  }else{note.hidden=false;note.textContent="Copy was blocked by the browser. Use Export instead."}
-});
-bClear.addEventListener("click",function(){
-  var b=this;
-  if(b.dataset.arm!=="1"){
-    b.dataset.arm="1";b.textContent="Click again to confirm";
-    note.hidden=false;note.textContent="This deletes the feedback stored in this browser.";
-    setTimeout(function(){if(b.dataset.arm==="1"){b.dataset.arm="";b.textContent="Clear stored feedback"}},3500);
+  $('#trendChart').innerHTML='<div class="chart-scroll"><svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Stunting prevalence in Timor-Leste, 2002 to 2026, falling from 55.7 to 44.9 percent; target below 25 percent by 2030">'+
+    g+
+    '<path d="'+line+'" fill="none" stroke="#a94f2c" stroke-width="2.4" stroke-linejoin="round"/>'+
+    '<path d="'+sevLine+'" fill="none" stroke="#2d6468" stroke-width="1.4" stroke-dasharray="4 3" opacity=".8"/>'+
+    sev.map(p=>'<circle cx="'+p[0]+'" cy="'+p[1]+'" r="2.6" fill="#2d6468"/>').join('')+
+    tgt+jme+dots+
+    '<text class="ax" x="'+x(2016)+'" y="'+(y(23.0)+16)+'" text-anchor="middle" fill="#2d6468">severe (survey years)</text>'+
+  '</svg></div>';
+}
+
+/* ---------- profile ---------- */
+function renderProfile(){
+  const wrap=$('#profileWrap');
+  wrap.innerHTML=PROFILE.map(p=>{
+    const rows=SURVEYS.filter(s=>p.v[s]!=null).map(s=>{
+      const v=p.v[s],sev=p.sev?p.sev[s]:null;
+      const tip='<b>'+esc(p.k)+' · '+s+'</b><div class="r"><span>Prevalence</span><span>'+f1(v)+'%</span></div>'+(sev!=null?'<div class="r"><span>Severe</span><span>'+f1(sev)+'%</span></div>':'');
+      return '<div class="srow"><span class="yl">'+s+'</span>'+
+        '<div class="track"'+tipAttr(tip)+' tabindex="0" role="img" aria-label="'+esc(p.k)+' '+s+': '+f1(v)+' percent">'+
+          '<div class="fill" style="width:'+Math.min(100,v)+'%"></div>'+
+          (sev!=null?'<span class="sevmark" style="left:'+Math.min(100,sev)+'%"></span>':'')+
+        '</div><span class="val">'+f1(v)+'</span></div>';
+    }).join('');
+    return '<div class="pgroup"><h4>'+esc(p.k)+' <span>'+esc(p.d)+'</span></h4>'+rows+'</div>';
+  }).join('');
+  requestAnimationFrame(()=>{wrap.querySelectorAll('.fill').forEach(f=>{const w=f.style.width;f.style.width='0';requestAnimationFrame(()=>f.style.width=w);});});
+}
+
+/* ---------- region ---------- */
+function renderRegion(){
+  const max=50;
+  const rows=REGION.map(r=>{
+    const tip='<b>'+esc(r.n)+'</b><div class="r"><span>Stunting, 2024 (modelled)</span><span>'+f1(r.v)+'%</span></div>';
+    return '<div class="brow"'+tipAttr(tip)+'>'+
+      '<span class="lbl" style="'+(r.tl?'font-weight:700':'')+'">'+esc(r.n)+'</span>'+
+      '<div class="track"><div class="fill'+(r.tl?'':' teal')+'" style="width:'+(r.v/max*100).toFixed(1)+'%;'+(r.tl?'':'background:#9fb9b6')+'"></div></div>'+
+      '<span class="val">'+f1(r.v)+'</span></div>';
+  }).join('');
+  $('#regionWrap').innerHTML='<div style="position:relative;padding-top:16px">'+
+    BENCH.map(b=>'<div style="position:absolute;left:calc(132px + 12px + (100% - 132px - 12px - 58px - 12px) * '+(b.v/max)+');top:14px;bottom:0;border-left:1px dashed #b9b09e;pointer-events:none"></div>'+
+      '<div style="position:absolute;left:calc(132px + 12px + (100% - 132px - 12px - 58px - 12px) * '+(b.v/max)+');top:0;transform:translateX(-50%);font-size:9.5px;color:#9a9282;white-space:nowrap">'+b.l+'</div>').join('')+
+    rows+'</div>';
+}
+
+/* ---------- map ---------- */
+function mapTip(name){
+  const m=MUN[name];
+  return '<b>'+esc(m.label||name)+'</b>'+
+    '<div class="r"><span>Stunting 2025–26</span><span>'+f1(m.s)+'%</span></div>'+
+    '<div class="r"><span>Severe</span><span>'+f1(m.sev)+'%</span></div>'+
+    (m.pop?'<div class="r"><span>Population 2022</span><span>'+pop(m.pop)+'</span></div>':'')+
+    (m.n?'<div class="r"><span>Sample</span><span>n='+m.n+' · unreliable</span></div>':'')+
+    '<div style="margin-top:4px;color:#b9b09e">Click to select</div>';
+}
+function renderMap(){
+  const cfg=BINS[state.metric];
+  const wrap=$('#mapWrap');
+  const v=GEO.view;
+  let paths='';
+  AREAS.forEach(name=>{
+    const d=GEO.regions[name];if(!d)return;
+    const m=MUN[name],val=state.metric==='stunt'?m.s:m.sev;
+    const fill=cfg.colors[binOf(val,state.metric)];
+    paths+='<path class="rg" data-name="'+esc(name)+'" d="'+d+'" fill="'+fill+'" tabindex="0" role="button" aria-label="'+esc(name)+': '+cfg.label+' '+f1(val)+' percent. Select for details."></path>';
+  });
+  let labels='';
+  AREAS.forEach(name=>{
+    const c=GEO.cents[name];if(!c)return;
+    labels+='<text class="maplab'+(state.mun===name?' sel':'')+'" x="'+c[0]+'" y="'+(c[1]+3)+'" text-anchor="middle">'+esc(name)+'</text>';
+  });
+  const hatch=GEO.regions['Atauro']?'<defs><pattern id="hatch" width="5" height="5" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><line x1="0" y1="0" x2="0" y2="5" stroke="#8a4a2c" stroke-width=".7" opacity=".35"/></pattern></defs>'+
+    '<path d="'+GEO.regions['Atauro']+'" fill="url(#hatch)" pointer-events="none"></path>':'';
+  wrap.innerHTML='<svg viewBox="'+v.join(' ')+'" role="img" aria-label="Map of Timor-Leste municipalities shaded by '+cfg.label.toLowerCase()+', 2025–26">'+
+    hatch+paths+labels+'</svg>';
+  $('#mapLegend').innerHTML='<span>'+cfg.label+' %</span>'+cfg.colors.map((c,i)=>'<span class="sw" style="background:'+c+'" title="'+cfg.ticks[i]+'"></span>').join('')+
+    '<span style="margin-left:4px">'+cfg.ticks[0]+' → '+cfg.ticks[cfg.ticks.length-1]+'</span>';
+  wrap.querySelectorAll('.rg').forEach(p=>{
+    const name=p.dataset.name;
+    p.dataset.tip=encodeURIComponent(mapTip(name));
+    p.addEventListener('click',()=>{selectMun(state.mun===name?null:name);});
+    p.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selectMun(state.mun===name?null:name);}});
+  });
+  applyMapState();
+}
+function applyMapState(){
+  $$('#mapWrap .rg').forEach(p=>{
+    const name=p.dataset.name,m=MUN[name];
+    const val=state.metric==='stunt'?m.s:m.sev;
+    p.setAttribute('fill',BINS[state.metric].colors[binOf(val,state.metric)]);
+    p.classList.toggle('sel',state.mun===name);
+    p.classList.toggle('thr',val>=state.thr);
+  });
+  $$('#mapWrap .maplab').forEach(t=>{t.classList.toggle('sel',state.mun===t.textContent);});
+}
+
+/* ---------- detail ---------- */
+function renderDetail(){
+  const box=$('#detailPanel');
+  if(!state.mun){
+    const top=AREAS.slice().sort((a,b)=>MUN[b].s-MUN[a].s).slice(0,3);
+    box.innerHTML='<h3>National picture</h3>'+
+      '<div class="big">44.9<span class="u">% stunted</span></div>'+
+      '<div class="dstats">'+
+        '<div class="dstat"><div class="k">Severe</div><div class="v">16.5<small>%</small></div></div>'+
+        '<div class="dstat"><div class="k">Spread across areas</div><div class="v">22.5<small> pp</small></div></div>'+
+      '</div>'+
+      '<div class="dmeta">'+
+        '<div class="row"><span>Highest</span><span><b>Ermera 57.4%</b></span></div>'+
+        '<div class="row"><span>Lowest</span><span><b>Dili · Manatuto 34.9%</b></span></div>'+
+        '<div class="row"><span>Survey</span><span>TLDHS 2025–26 [1]</span></div>'+
+      '</div>'+
+      '<div class="empty" style="margin-top:14px;text-align:left"><b>Select an area</b>Click a municipality on the map or a table row, or use the dropdown. The summary cards, map and table stay in sync.</div>'+
+      '<p class="cap">Top three by burden: '+top.map(n=>esc(n)+' '+f1(MUN[n].s)+'%').join(' · ')+'.</p>';
     return;
   }
-  b.dataset.arm="";b.textContent="Clear stored feedback";
-  persist([]);refresh();note.hidden=false;note.textContent="Stored feedback cleared.";
-});
-refresh();
-})();
+  const m=MUN[state.mun];
+  const rank=AREAS.slice().sort((a,b)=>MUN[b].s-MUN[a].s).indexOf(state.mun)+1;
+  const gap=m.s-NAT.s;
+  box.innerHTML='<h3>'+esc(m.label||state.mun)+'</h3>'+
+    '<div class="big">'+f1(m.s)+'<span class="u">% stunted</span></div>'+
+    '<div class="dstats">'+
+      '<div class="dstat"><div class="k">Severe</div><div class="v">'+f1(m.sev)+'<small>%</small></div></div>'+
+      '<div class="dstat"><div class="k">Rank (worst first)</div><div class="v">'+rank+'<small> of 14</small></div></div>'+
+      '<div class="dstat"><div class="k">vs national</div><div class="v">'+sgn(gap)+'<small> pp</small></div></div>'+
+      '<div class="dstat"><div class="k">Population 2022</div><div class="v" style="font-size:'+(m.pop?'16':'13')+'px">'+(m.pop?pop(m.pop):'<span class="muted">not published</span>')+'</div></div>'+
+    '</div>'+
+    '<div class="dmeta">'+
+      '<div class="row"><span>Severe stunting</span><span><b>'+f1(m.sev)+'%</b> · national 16.5%</span></div>'+
+      (m.fies?'<div class="row"><span>Severe food insecurity, 2020</span><span><b>'+f1(m.fies)+'%</b> of households</span></div>':'')+
+      (m.n?'<div class="row"><span>Reliability</span><span><span class="pill warn">n='+m.n+' · use with caution</span></span></div>':'')+
+      (m.note?'<div class="row"><span>Earlier surveys</span><span>'+esc(m.note)+'</span></div>':'')+
+    '</div>'+
+    (m.pop?'':'<p class="cap" style="margin-top:10px">Population is reported in the source only for Ermera, Baucau, Bobonaro and Oecusse.</p>')+
+    '<button class="btn" id="clearSel" style="margin-top:14px">Clear selection</button>';
+  $('#clearSel').addEventListener('click',()=>selectMun(null));
+}
+
+/* ---------- table ---------- */
+function sortedAreas(){
+  const key=state.sort.key,dir=state.sort.dir;
+  const val=n=>key==='name'?n:key==='gap'?MUN[n].s-NAT.s:MUN[n][key];
+  return AREAS.slice().sort((a,b)=>{
+    const A=val(a),B=val(b);
+    if(key==='pop'){if(A==null&&B==null)return 0;if(A==null)return 1;if(B==null)return -1;}
+    if(typeof A==='string')return dir*A.localeCompare(B);
+    return dir*(A-B);
+  });
+}
+function renderTable(){
+  const body=$('#munTbody');
+  const rows=sortedAreas().filter(n=>!state.onlyThr||MUN[n].s>=state.thr);
+  const gap=n=>MUN[n].s-NAT.s;
+  body.innerHTML=rows.map(n=>{
+    const m=MUN[n];
+    return '<tr class="row" tabindex="0" data-name="'+esc(n)+'" aria-selected="'+(state.mun===n)+'">'+
+      '<td><b>'+esc(m.label||n)+'</b>'+(m.n?'<span class="mini">n=21</span>':'')+'</td>'+
+      '<td class="right"><b>'+f1(m.s)+'</b></td>'+
+      '<td class="right">'+f1(m.sev)+'</td>'+
+      '<td class="right" style="color:'+(gap(n)>0?'#a94f2c':'#2d6468')+'">'+sgn(gap(n))+'</td>'+
+      '<td class="right">'+(m.pop?pop(m.pop):'<span class="faint">—</span>')+'</td>'+
+      '<td class="small muted">'+(m.n?'Small sample (n=21)':'')+(m.note?'Earlier surveys differ':'')+'</td></tr>';
+  }).join('');
+  body.querySelectorAll('tr').forEach(tr=>{
+    const n=tr.dataset.name;
+    tr.addEventListener('click',()=>selectMun(state.mun===n?null:n));
+    tr.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selectMun(state.mun===n?null:n);}});
+  });
+  $('#tableEmpty').hidden=rows.length>0;
+  if(!rows.length){
+    $('#tableEmpty').innerHTML='<div class="empty"><b>No areas match this threshold</b>'+state.thr.toFixed(0)+'% is above every reported value (highest: 57.4%). Lower the threshold or uncheck “Only areas”.</div>';
+  }
+  $$('#munTable th button').forEach(b=>{
+    const k=b.dataset.sort,on=state.sort.key===k;
+    b.querySelector('.arrow').textContent=on?(state.sort.dir>0?'↑':'↓'):'↕';
+    b.closest('th').setAttribute('aria-sort',on?(state.sort.dir>0?'ascending':'descending'):'none');
+  });
+}
+
+/* ---------- selection ---------- */
+function selectMun(name){
+  state.mun=name&&MUN[name]?name:null;
+  $('#munSelect').value=state.mun||'';
+  renderKpis();applyMapState();renderDetail();renderTable();
+}
+function updateThr(){
+  const n=AREAS.filter(a=>MUN[a].s>=state.thr).length;
+  $('#thrOut').textContent=state.thr.toFixed(0);
+  $('#thr').setAttribute('aria-valuetext',state.thr+' percent, '+n+' of 14 areas at or above');
+  $('#thrCount').textContent=n+' of 14 areas';
+  applyMapState();renderTable();
+}
+
+/* ---------- drivers ---------- */
+function renderIYCF(){
+  $('#iycfWrap').innerHTML=IYCF.map(row=>{
+    const dots=Object.keys(row.v).map(s=>{
+      const pair=row.v[s],v=pair[0],note=pair[1];
+      const cls=s==='2016'?'y16':s==='2020'?'y20':'y26';
+      const tip='<b>'+esc(row.l)+'</b><div class="r"><span>'+s+(note?' · '+esc(note):'')+'</span><span>'+f1(v)+'%</span></div>';
+      return '<span class="sdot '+cls+'" style="left:'+Math.min(99,v)+'%"'+tipAttr(tip)+' tabindex="0" role="img" aria-label="'+esc(row.l)+' '+s+': '+f1(v)+' percent"></span>';
+    }).join('');
+    const latest=row.v['2025–26']?row.v['2025–26'][0]:row.v['2020'][0];
+    return '<div class="brow" style="grid-template-columns:186px 1fr 54px">'+
+      '<span class="lbl">'+esc(row.l)+'<small>'+esc(row.sub)+'</small></span>'+
+      '<div class="strip">'+dots+'</div>'+
+      '<span class="val">'+f1(latest)+'</span></div>';
+  }).join('');
+}
+function renderDisease(){
+  $('#diseaseWrap').innerHTML=DISEASE.map(d=>{
+    const tip='<b>'+esc(d.l)+'</b><div class="r"><span>2025–26</span><span>'+f1(d.a)+'%</span></div><div class="r"><span>2016</span><span>'+f1(d.b)+'%</span></div>';
+    return '<div class="brow" style="grid-template-columns:132px 1fr 66px;padding:5px 0"'+tipAttr(tip)+'>'+
+      '<span class="lbl">'+esc(d.l)+'</span>'+
+      '<div style="display:grid;gap:3px">'+
+        '<div class="track" style="height:5px"><div class="fill" style="width:'+d.a+'%"></div></div>'+
+        '<div class="track" style="height:5px;background:#f4efe6"><div class="fill sand" style="width:'+d.b+'%"></div></div>'+
+      '</div>'+
+      '<span class="val">'+f1(d.a)+' <small>/ '+f1(d.b)+'</small></span></div>';
+  }).join('');
+}
+function renderServices(){
+  $('#servicesWrap').innerHTML=SERVICES.map(d=>{
+    const up=d.b>d.a,delta=d.b-d.a;
+    const tip='<b>'+esc(d.l)+'</b><div class="r"><span>2016</span><span>'+f1(d.a)+'%</span></div><div class="r"><span>2025–26</span><span>'+f1(d.b)+'%</span></div><div class="r"><span>Change</span><span>'+sgn(delta)+' pp</span></div>';
+    return '<div class="dbrow" style="grid-template-columns:minmax(120px,150px) 1fr 58px"'+tipAttr(tip)+'>'+
+      '<span class="lbl">'+esc(d.l)+'</span>'+
+      '<div class="db"><span class="d old" style="left:'+d.a+'%"></span><span class="seg" style="left:'+Math.min(d.a,d.b)+'%;width:'+Math.abs(delta)+'%"></span><span class="d hi" style="left:'+d.b+'%"></span></div>'+
+      '<span class="gap" style="color:'+(up?'#2d6468':'#a94f2c')+'">'+sgn(delta)+'<small>pp</small></span></div>';
+  }).join('');
+}
+function renderWash(){
+  $('#washWrap').innerHTML=WASH.map(d=>{
+    const tip='<b>'+esc(d.l)+'</b><div class="r"><span>National 2024</span><span>'+f1(d.v)+'%</span></div>'+(d.r!=null?'<div class="r"><span>Rural / urban</span><span>'+f1(d.r)+'% / '+f1(d.u)+'%</span></div>':'');
+    return '<div class="brow"'+tipAttr(tip)+'><span class="lbl">'+esc(d.l)+'</span>'+
+      '<div class="track"><div class="fill '+(d.l==='Open defecation'?'sand':'teal')+'" style="width:'+d.v+'%"></div></div>'+
+      '<span class="val">'+f1(d.v)+'</span></div>';
+  }).join('');
+}
+function renderFies(){
+  const cards=[
+    {k:'Moderate or severe food insecurity',v:'50.4%',s:'households, 2020: 34.8% moderate + 15.6% severe [4]'},
+    {k:'FIES 3-year average',v:'53.7%',s:'2019–21, latest published point [52]'},
+    {k:'Undernourishment',v:'16.9%',s:'FAO, 2024 [53]'},
+    {k:'IPC Phase 3+',v:'≈360,000',s:'people, Nov 2023–Sep 2024 (~1 in 4) [54]'}
+  ];
+  $('#fiesWrap').innerHTML='<div class="statgrid" style="grid-template-columns:1fr">'+cards.map(c=>'<div class="stat"><div class="k">'+c.k+'</div><div class="v">'+c.v+'</div><div class="s">'+c.s+'</div></div>').join('')+'</div>';
+}
+function renderWomen(){
+  $('#womenWrap').innerHTML=WOMEN.map(w=>'<div class="stat"><div class="k">'+esc(w.k)+'</div><div class="v">'+w.v+'</div><div class="s">'+esc(w.s)+'</div></div>').join('');
+}
+function renderFiesMun(){
+  $('#fiesMunWrap').innerHTML=FIESMUN.map(d=>'<div class="brow" style="grid-template-columns:86px 1fr 48px">'+
+    '<span class="lbl">'+d.n+'</span><div class="track"><div class="fill" style="width:'+(d.v*3.5)+'%"></div></div><span class="val">'+f1(d.v)+'</span></div>').join('')+
+    '<p class="cap" style="margin-top:8px">Severe food insecurity, % of households (2020). The national severe rate is 15.6%.</p>';
+}
+function renderFound(){
+  $('#foundWrap').innerHTML=FOUND.map(d=>'<div class="stat"><div class="k">'+d.k+'</div><div class="v">'+d.v+'</div><div class="s">'+d.s+'</div></div>').join('');
+}
+
+/* ---------- equity ---------- */
+function renderEquity(){
+  const max=60;
+  $('#equityWrap').innerHTML=EQUITY.map(d=>{
+    const gap=d.hi-d.lo;
+    const tip='<b>'+esc(d.l)+'</b><div class="r"><span>'+esc(d.hiL)+'</span><span>'+f1(d.hi)+'%</span></div><div class="r"><span>'+esc(d.loL)+'</span><span>'+f1(d.lo)+'%</span></div><div class="r"><span>Gap</span><span>'+f1(gap)+' pp</span></div><div class="r"><span>Survey</span><span>'+esc(d.src)+'</span></div>';
+    return '<div class="dbrow"'+tipAttr(tip)+'>'+
+      '<span class="lbl">'+esc(d.l)+'<small>'+esc(d.src)+(d.old?' · for comparison':'')+'</small></span>'+
+      '<div class="db" style="opacity:'+(d.old?'.72':'1')+'"><span class="seg" style="left:'+(d.lo/max*100)+'%;width:'+((d.hi-d.lo)/max*100)+'%"></span><span class="d lo" style="left:'+(d.lo/max*100)+'%"></span><span class="d hi" style="left:'+(d.hi/max*100)+'%"></span></div>'+
+      '<span class="gap">'+f1(gap)+'<small>pp gap</small></span></div>';
+  }).join('');
+  $('#interWrap').innerHTML=INTER.map(d=>'<div class="card"><div class="card-b">'+
+    '<div class="k small muted" style="text-transform:uppercase;letter-spacing:.05em;font-weight:600">'+esc(d.h)+'</div>'+
+    '<div style="font-size:27px;font-weight:650;letter-spacing:-.02em;margin:3px 0 4px">'+d.v+'</div>'+
+    '<p class="small muted" style="line-height:1.5">'+esc(d.p)+'</p></div></div>').join('');
+}
+
+/* ---------- response ---------- */
+function renderResponse(){
+  $('#timelineWrap').innerHTML=TIMELINE.map(t=>'<li class="'+(t.key?'key':'')+'"><span class="yr">'+esc(t.y)+'</span>'+t.t+'</li>').join('');
+  $('#effectsWrap').innerHTML=EFFECTS.map(e=>'<div class="brow" style="grid-template-columns:1fr 52px;padding:5px 0">'+
+      '<span class="lbl">'+esc(e.l)+'<small>'+esc(e.s)+'</small></span>'+
+      '<span class="val" style="color:#2d6468">−'+e.v+'%</span>'+
+      '<div class="track" style="grid-column:1 / -1;height:6px;margin-top:2px"><div class="fill teal" style="width:'+(e.v/31*100)+'%"></div></div></div>').join('');
+  const roi=[
+    {k:'Return on investment',v:'$1 → $23',s:'global 2024 investment framework [39]'},
+    {k:'Timor-Leste package',v:'$1 → $10+',s:'+US$55m national package [38][12]'},
+    {k:'Annual cost of inaction',v:'US$41m',s:'≈1% of GDP, 2013 data [24]'},
+    {k:'Incremental cost to 2030',v:'$5',s:'per person per year [12][38]'}
+  ];
+  $('#roiWrap').innerHTML=roi.map(r=>'<div class="stat" style="margin-bottom:10px"><div class="k">'+r.k+'</div><div class="v">'+r.v+'</div><div class="s">'+r.s+'</div></div>').join('');
+  $('#successWrap').innerHTML=SUCCESS.map(s=>{
+    const tip='<b>'+esc(s.n)+'</b><div class="r"><span>'+s.ya+'</span><span>'+f1(s.a)+'%</span></div><div class="r"><span>'+s.yb+'</span><span>'+f1(s.b)+'%</span></div><div style="margin-top:4px;color:#cfc7b8">'+esc(s.d)+'</div>';
+    return '<div style="margin:0 0 12px"'+tipAttr(tip)+'>'+
+      '<div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><b>'+s.n+'</b><span class="muted">'+s.ya+' → '+s.yb+'</span></div>'+
+      '<div class="track" style="height:8px"><div class="fill sand" style="width:'+(s.a/60*100)+'%"></div><div class="fill" style="width:'+(s.b/60*100)+'%"></div></div>'+
+      '<div class="small muted" style="margin-top:3px">'+f1(s.a)+'% → <b style="color:var(--ink2)">'+f1(s.b)+'%</b></div></div>';
+  }).join('')+'<p class="cap">Darker bar begins at the latest value. No country cut stunting with a single instrument — wealth, parental education, sanitation and maternal services combined [101].</p>';
+  $('#barrierWrap').innerHTML=BARRIERS.map(b=>'<li>'+b+'</li>').join('');
+  RECS.forEach((arr,i)=>{$('#rec'+i).innerHTML=arr.map(r=>'<li>'+r+'</li>').join('');});
+  $('#donorBody').innerHTML=DONORS.map(d=>'<tr><td><b>'+d[0]+'</b></td><td class="small">'+d[1]+'</td><td class="right small" style="white-space:nowrap">'+d[2]+'</td></tr>').join('');
+}
+
+/* ---------- tabs ---------- */
+function goTab(id,focus){
+  $$('.tab').forEach(b=>{
+    const on=b.dataset.view===id;
+    b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;
+    if(on&&focus)b.focus();
+  });
+  $$('.view').forEach(v=>{
+    const on=v.id==='view-'+id;v.hidden=!on;
+    if(on){v.classList.remove('anim');void v.offsetWidth;v.classList.add('anim');}
+  });
+  if(id==='map')renderMap();
+  hideTip();
+}
+
+/* ---------- init ---------- */
+function renderAll(){
+  renderKpis();renderTrend();renderProfile();renderRegion();renderMap();renderDetail();renderTable();
+  updateThr();hideTip();
+}
+function init(){
+  $('#munSelect').innerHTML='<option value="">All 14 areas</option>'+AREAS.slice().sort((a,b)=>MUN[b].s-MUN[a].s).map(n=>'<option value="'+esc(n)+'">'+esc(MUN[n].label||n)+' — '+f1(MUN[n].s)+'%</option>').join('');
+  renderIYCF();renderDisease();renderServices();renderWash();renderFies();renderWomen();renderFiesMun();renderFound();
+  renderEquity();renderResponse();renderAll();
+
+  $$('.tab').forEach(b=>{
+    b.addEventListener('click',()=>goTab(b.dataset.view));
+    b.addEventListener('keydown',e=>{
+      const tabs=$$('.tab'),i=tabs.indexOf(b);
+      if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();goTab(tabs[(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length].dataset.view,true);}
+      if(e.key==='Home'){e.preventDefault();goTab(tabs[0].dataset.view,true);}
+      if(e.key==='End'){e.preventDefault();goTab(tabs[tabs.length-1].dataset.view,true);}
+    });
+  });
+  $('#munSelect').addEventListener('change',e=>selectMun(e.target.value||null));
+  $('#ctxChip').addEventListener('click',()=>selectMun(null));
+  $('#thr').addEventListener('input',e=>{state.thr=+e.target.value;updateThr();});
+  $('#onlyThr').addEventListener('change',e=>{state.onlyThr=e.target.checked;renderTable();});
+  $('#jmeToggle').addEventListener('change',e=>{state.modelled=e.target.checked;renderTrend();});
+  $$('.seg button').forEach(b=>b.addEventListener('click',()=>{
+    state.metric=b.dataset.metric;
+    $$('.seg button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.metric===state.metric));
+    renderMap();
+  }));
+  $$('.chip[data-domain]').forEach(c=>c.addEventListener('click',()=>{
+    state.domain=c.dataset.domain;
+    $$('.chip[data-domain]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.domain===state.domain));
+    $$('#driverStack [data-domain]').forEach(card=>{card.hidden=state.domain!=='all'&&card.dataset.domain!==state.domain;});
+  }));
+  $$('#munTable th button').forEach(b=>b.addEventListener('click',()=>{
+    const k=b.dataset.sort;
+    if(state.sort.key===k)state.sort.dir*=-1;else state.sort={key:k,dir:k==='name'?1:-1};
+    renderTable();
+  }));
+  $('#resetBtn').addEventListener('click',()=>{
+    state.mun=null;state.metric='stunt';state.thr=58;state.onlyThr=false;state.modelled=false;state.domain='all';state.sort={key:'s',dir:-1};
+    $('#munSelect').value='';$('#thr').value=58;$('#onlyThr').checked=false;$('#jmeToggle').checked=false;
+    $$('.seg button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.metric==='stunt'));
+    $$('.chip[data-domain]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.domain==='all'));
+    $$('#driverStack [data-domain]').forEach(c=>c.hidden=false);
+    renderAll();
+  });
+}
+init();
 </script>
 </body>
 </html>
